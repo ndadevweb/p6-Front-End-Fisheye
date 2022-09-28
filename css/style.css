@@ -1,12 +1,11 @@
-@import url("photographer.css");
+@import url('photographer.css');
 
 body {
-    font-family: "DM Sans", sans-serif;
+    font-family: 'DM Sans', sans-serif;
     margin: 0;
 }
 
-
-header {
+header.header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -15,7 +14,7 @@ header {
 }
 
 h1 {
-    color: #901C1C;
+    color: #901c1c;
     margin-right: 100px;
 }
 
@@ -27,24 +26,105 @@ h1 {
 .photographer_section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
     gap: 70px;
     margin-top: 100px;
 }
 
 .photographer_section article {
-    justify-self: center;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center; */
+    /* justify-self: center;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column; */
+}
+
+.photographer_section article a {
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+
+.photographer_section article .photograper-complementary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.photographer_section article .photographer-location {
+    color: #901c1c;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.photographer_section article .photographer-tagline {
+    font-size: 14px;
+}
+
+.photographer_section article .photographer-price {
+    color: #525252;
+    font-size: 12px;
 }
 
 .photographer_section article h2 {
-    color: #D3573C;
+    margin: 20px 0 10px;
+    color: #d3573c;
     font-size: 36px;
 }
 
-.photographer_section article img {
+.container-image-photographer {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    box-shadow: 0px 5px 40px 1px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.container-image-photographer--loading {
+    background: linear-gradient(-45deg, #fff, #eee, #fff, #eee, #fff);
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+    animation: gradient 2s ease infinite;
+}
+
+.image-photographer {
+    display: block;
     height: 200px;
     width: 200px;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.image-photographer-opacity-progress {
+    animation: opacity-progressive 4000ms ease forwards;
+}
+
+@keyframes opacity-progressive {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
