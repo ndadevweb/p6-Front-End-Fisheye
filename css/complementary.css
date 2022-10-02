@@ -1,0 +1,42 @@
+.complementary {
+    position: sticky;
+    bottom: 0;
+
+    align-self: end;
+
+    display: flex;
+    align-items: center;
+
+    margin-right: -45px;
+
+    width: 375px;
+    height: 65px;
+    border-radius: 5px 5px 0 0;
+    background: #db8876;
+    color: #000;
+    font-size: 24px;
+}
+
+.complementary-list {
+    margin: 0;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: space-between;
+    flex: 1 1;
+    list-style: none;
+}
+
+.complementary li:nth-child(1) {
+    display: flex;
+    align-items: center;
+}
+
+.complementary li:nth-child(1) .complementary-likes {
+    min-width: 50px;
+}
+
+.complementary .heart {
+    fill: #000;
+}

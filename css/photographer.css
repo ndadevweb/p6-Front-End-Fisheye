@@ -2,10 +2,42 @@
     display: none;
 }
 
-.photograph-header {
-    background-color: #FAFAFA;
+.photographer-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: #fafafa;
     height: 300px;
-    margin: 0 100px;
+}
+
+.photographer-header .photographer-complementary,
+.photographer-header button,
+.photographer-header .container-image-photographer {
+    align-self: center;
+}
+
+.photographer-header .photographer-complementary {
+    margin-left: 50px;
+    justify-self: start;
+}
+
+.photographer-header .photographer-complementary h1 {
+    margin: 0;
+    color: #d3573c;
+    font-size: 50px;
+}
+
+.photographer-complementary .photographer-location {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.photographer-header button {
+    justify-self: center;
+}
+
+.photographer-header .container-image-photographer {
+    justify-self: end;
+    margin-right: 50px;
 }
 
 .contact_button {
@@ -16,14 +48,13 @@
     width: 170px;
     height: 70px;
     border: none;
-    background-color: #901C1C;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .modal {
     border-radius: 5px;
-    background-color: #DB8876;
+    background-color: #db8876;
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -56,7 +87,7 @@ form {
 }
 
 form label {
-    color: #312E2E;
+    color: #312e2e;
     font-size: 36px;
 }
 

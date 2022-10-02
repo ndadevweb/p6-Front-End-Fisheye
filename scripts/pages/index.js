@@ -1,23 +1,24 @@
 import { PhotographerEntity } from '../entities/photographer.js';
-import { FetchPhotographers } from '../utils/fetchPhotographer.js';
-import { UserCard } from '../components/userCard.js';
+import { FetchPhotographers } from '../utils/fetchApi.js';
+import { PhotographerCard } from '../components/photographer/photographerCard.js';
 
-async function getPhotographers() {
-    const photographersFromAPI = await new FetchPhotographers().fetchAll();
+class IndexPage {
+    async init() {
+        this.photographersApi = new FetchPhotographers();
+        this.photographers = await this.photographersApi.fetchAll();
+        this.photographersEntities = this.photographers.map(
+            (photographer) => new PhotographerEntity(photographer)
+        );
+    }
 
-    return photographersFromAPI;
+    async display() {
+        const photographersSection = document.querySelector('.photographer_section');
+        this.photographersEntities.forEach((photographer) =>
+            photographersSection.append(PhotographerCard(photographer))
+        );
+    }
 }
 
-async function displayData(photographers) {
-    const photographersSection = document.querySelector('.photographer_section');
-
-    photographers.forEach((photographer) => photographersSection.append(UserCard(photographer)));
-}
-
-(async function init() {
-    // Récupère les datas des photographes
-    const photographersFromAPI = await getPhotographers();
-    const photographers = photographersFromAPI.map((photographer) => new PhotographerEntity(photographer));
-
-    displayData(photographers);
-})();
+const page = new IndexPage();
+await page.init();
+await page.display();

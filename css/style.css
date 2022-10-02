@@ -1,7 +1,40 @@
-@import url('photographer.css');
+@import url("photographer.css");
+@import url("media.css");
+@import url("complementary.css");
+
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.btn {
+    background: #901c1c;
+    color: #fff;
+    transition: background 500ms, color 500ms;
+}
+
+.btn:hover {
+    background: #db8876;
+    color: #000;
+}
+
+.focusable {
+    outline: 0px;
+    transition: outline 125ms ease;
+}
+
+.focusable:focus-visible {
+    outline: 4px solid royalblue;
+}
 
 body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     margin: 0;
 }
 
@@ -20,7 +53,7 @@ h1 {
 
 .logo {
     height: 50px;
-    margin-left: 100px;
+    /* margin-left: 100px; */
 }
 
 .photographer_section {
@@ -29,6 +62,14 @@ h1 {
     justify-items: center;
     gap: 70px;
     margin-top: 100px;
+}
+
+.photographer-location {
+    color: #901c1c;
+}
+
+.photographer-tagline {
+    color: #525252;
 }
 
 .photographer_section article {
@@ -51,7 +92,7 @@ h1 {
     text-decoration: none;
 }
 
-.photographer_section article .photograper-complementary {
+.photographer_section article .photographer-complementary {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -59,8 +100,11 @@ h1 {
     line-height: 1.5;
 }
 
+.photographer_section article .photographer-complementary p {
+    margin: 0;
+}
+
 .photographer_section article .photographer-location {
-    color: #901c1c;
     font-weight: 600;
     font-size: 14px;
 }
