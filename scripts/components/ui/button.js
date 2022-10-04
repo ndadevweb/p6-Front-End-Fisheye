@@ -12,7 +12,9 @@ export const Button = (props) => {
     buttonElement.textContent = value;
     buttonElement.addEventListener('click', callback);
 
-    ['btn', 'contact_button', 'focusable'].forEach((className) => buttonElement.classList.add(className));
+    ['btn', 'contact_button', 'focusable'].forEach((className) =>
+        buttonElement.classList.add(className)
+    );
 
     return buttonElement;
 };

@@ -40,6 +40,30 @@
     margin-right: 50px;
 }
 
+/* Modal */
+
+.modal {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: scroll;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 750ms ease;
+}
+
+.modal-open {
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5);
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Contact form */
+
 .contact_button {
     font-size: 20px;
     font-weight: bold;
@@ -52,46 +76,51 @@
     cursor: pointer;
 }
 
-.modal {
+.contact-form {
     border-radius: 5px;
     background-color: #db8876;
     width: 50%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
     padding: 35px;
     margin: auto;
 }
 
-.modal header {
-    justify-content: space-between;
+.contact-form header {
+    display: flex;
     width: 100%;
 }
 
-.modal header img {
+.contact-form header img {
+    align-self: start;
+    margin-left: auto;
     cursor: pointer;
 }
 
-.modal header h2 {
-    font-size: 64px;
+.contact-form header h2 {
+    align-self: start;
+    font-size: 60px;
     font-weight: normal;
-    text-align: center;
+    margin: 0;
 }
 
-form {
+.contact-form header h2 span {
+    display: block;
+}
+
+.contact-form form {
     display: flex;
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
 }
 
-form label {
+.contact-form form label {
     color: #312e2e;
     font-size: 36px;
 }
 
-form div {
+.contact-form form div {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -99,9 +128,21 @@ form div {
     margin-bottom: 26px;
 }
 
-form input {
+.contact-form form input {
     width: 100%;
     height: 68px;
+    padding: 10px;
     border: none;
     border-radius: 5px;
+    font-size: 22px;
+}
+
+.contact-form form textarea {
+    width: 100%;
+    min-height: 170px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 22px;
+    resize: vertical;
 }

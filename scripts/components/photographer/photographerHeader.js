@@ -9,17 +9,22 @@ import { PhotographerLocation, PhotographerTagline, PhotographerImage } from './
  * @returns {Element}
  */
 export const PhotographerHeader = (props) => {
+    const { photographerEntity, contactWithModal } = props;
     const headerElement = document.createElement('header');
     const photographerInformationElement = document.createElement('aside');
 
-    const nameElement = Title({ title: props.name }, 'h1');
-    const locationElement = PhotographerLocation(props);
-    const taglineElement = PhotographerTagline(props);
+    const nameElement = Title({ title: photographerEntity.name }, 'h1');
+    const locationElement = PhotographerLocation(photographerEntity);
+    const taglineElement = PhotographerTagline(photographerEntity);
 
-    const buttonModalProps = { value: 'Contactez-moi', type: 'button', callback: displayModal };
+    const buttonModalProps = {
+        value: 'Contactez-moi',
+        type: 'button',
+        callback: () => contactWithModal.open(),
+    };
     const buttonModalElement = Button(buttonModalProps);
 
-    const imageElement = PhotographerImage(props);
+    const imageElement = PhotographerImage(photographerEntity);
 
     photographerInformationElement.classList.add('photographer-complementary');
     headerElement.classList.add('photographer-header');

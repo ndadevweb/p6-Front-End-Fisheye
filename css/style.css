@@ -33,6 +33,10 @@
     outline: 4px solid royalblue;
 }
 
+.body-scroll--none {
+    overflow: hidden;
+}
+
 body {
     font-family: "DM Sans", sans-serif;
     margin: 0;

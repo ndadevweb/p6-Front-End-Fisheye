@@ -2,6 +2,7 @@ import { FetchPhotographers, FetchMedias } from '../utils/fetchApi.js';
 import { PhotographerHeader } from '../components/photographer/photographerHeader.js';
 import { MediaCards } from '../components/media/mediaCards.js';
 import { PhotographerComplementary } from '../components/photographer/photographerComplementary.js';
+import { ContactWithModal } from '../components/photographer/contactWithModal.js';
 import { PhotographerEntity } from '../entities/photographer.js';
 import { MediaEntity } from '../entities/media.js';
 import { LikesObserver } from '../observers/likes.js';
@@ -33,12 +34,15 @@ class PhotographerPage {
 
         // Met a jour le nombre total de likes a chaque like d'un media du photographe
         this.likesObserver.add(this.photographerComplementary);
+
+        this.photographerHeader = PhotographerHeader({
+            photographerEntity: this.photographerEntity,
+            contactWithModal: ContactWithModal(this.photographerEntity),
+        });
     }
 
     async displayHeader() {
-        document
-            .querySelector('.photographer-header')
-            .replaceWith(PhotographerHeader(this.photographerEntity));
+        document.querySelector('.photographer-header').replaceWith(this.photographerHeader);
     }
 
     async displayMedias() {
