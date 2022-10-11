@@ -47,8 +47,8 @@ export const MediaVideo = (props) => {
     linkElement.href = pathVideo;
 
     videoElement.src = pathVideo;
-    videoElement.append(textNode);
-    videoElement.append(linkElement);
+    videoElement.setAttribute('tabindex', -1);
+    videoElement.append(textNode, linkElement);
 
     return videoElement;
 };

@@ -4,27 +4,30 @@ export class MediaLike {
     /**
      *
      * @param {Object} props { likes }
-     * @param {LikesObserver} LikesObserver
      */
-    constructor(props, LikesObserver) {
+    constructor(props) {
         this.likes = parseInt(props.likes);
         this.mediaLikeContainer = document.createElement('aside');
-        this.likesObserver = LikesObserver;
     }
 
     /**
-     * Gere la mise a jour du compteur de like
+     * Met a jour le compteur de like de l'element cible en argument
+     *
+     * @param {Element} target
+     * @returns {Integer}
      */
-    handleUpdateLikes() {
-        const mediaLikeContainer = this.mediaLikeContainer;
-        const mediaLikeCounter = mediaLikeContainer.querySelector('.media-like-counter');
+    static updateCounterElement(target) {
+        const mediaLikeContainer = target.closest('.media-like');
+        const mediaLikeCounterElement = mediaLikeContainer.querySelector('.media-like-counter');
+        const counterLike = parseInt(mediaLikeCounterElement.textContent);
 
         mediaLikeContainer.classList.toggle('liked');
-        const value = mediaLikeContainer.classList.contains('liked') === true ? 1 : -1;
-        this.likes += value;
-        mediaLikeCounter.textContent = this.likes;
 
-        this.likesObserver.notify(value);
+        const value = mediaLikeContainer.classList.contains('liked') === true ? 1 : -1;
+
+        mediaLikeCounterElement.textContent = counterLike + value;
+
+        return value;
     }
 
     /**
@@ -52,7 +55,6 @@ export class MediaLike {
         buttonElement.type = 'button';
         buttonElement.classList.add('media-like-btn');
         buttonElement.classList.add('focusable');
-        buttonElement.addEventListener('click', () => this.handleUpdateLikes());
         buttonElement.innerHTML = Heart();
 
         return buttonElement;

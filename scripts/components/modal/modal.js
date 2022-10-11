@@ -8,6 +8,34 @@ export class Modal {
     }
 
     /**
+     * Initialise les evenements
+     */
+    addEvents() {
+        this.handleKeyUp = this.handleKeyUp.bind(this);
+        document.body.addEventListener('keyup', this.handleKeyUp);
+    }
+
+    /**
+     * Gestion des evenement keyUp
+     *
+     * @param {Event} event
+     */
+    handleKeyUp(event) {
+        switch (event.key) {
+            case 'Escape':
+                this.close();
+                break;
+        }
+    }
+
+    /**
+     * Suppression des evenements
+     */
+    removeEvents() {
+        document.body.removeEventListener('keyup', this.handleKeyUp);
+    }
+
+    /**
      * Contenu de la modal
      *
      * @param {Element} element
@@ -24,6 +52,7 @@ export class Modal {
         this.modalWrapper.setAttribute('aria-hidden', true);
         this.modalWrapper.classList.add('modal-open');
         this.modalWrapper.append(this.element);
+        this.addEvents();
     }
 
     /**
@@ -33,5 +62,7 @@ export class Modal {
         document.body.classList.remove('body-scroll--none');
         this.modalWrapper.setAttribute('aria-hidden', false);
         this.modalWrapper.classList.remove('modal-open');
+        this.modalWrapper.firstChild.remove();
+        this.removeEvents();
     }
 }

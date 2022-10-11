@@ -24,6 +24,19 @@
     color: #000;
 }
 
+.btn-close {
+    border: none;
+    background: none;
+}
+
+.btn-close--white {
+    fill: #fff;
+}
+
+.btn-close--orange {
+    fill: #901c1c;
+}
+
 .focusable {
     outline: 0px;
     transition: outline 125ms ease;
@@ -42,6 +55,11 @@ body {
     margin: 0;
 }
 
+label,
+button {
+    cursor: pointer;
+}
+
 header.header {
     display: flex;
     flex-direction: row;
@@ -57,7 +75,6 @@ h1 {
 
 .logo {
     height: 50px;
-    /* margin-left: 100px; */
 }
 
 .photographer_section {
@@ -76,20 +93,14 @@ h1 {
     color: #525252;
 }
 
-.photographer_section article {
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center; */
-    /* justify-self: center;
+.photographer_section article a {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    flex-direction: column; */
+    text-decoration: none;
 }
 
-.photographer_section article a {
+.photographer_section article .photographer-complementary {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,6 +120,7 @@ h1 {
 }
 
 .photographer_section article .photographer-location {
+    color: #901c1c;
     font-weight: 600;
     font-size: 14px;
 }
