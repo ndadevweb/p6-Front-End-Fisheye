@@ -49,7 +49,8 @@ export class Modal {
      */
     open() {
         document.body.classList.add('body-scroll--none');
-        this.modalWrapper.setAttribute('aria-hidden', true);
+        this.modalWrapper.setAttribute('aria-hidden', false);
+        this.modalWrapper.setAttribute('aria-modal', true);
         this.modalWrapper.classList.add('modal-open');
         this.modalWrapper.append(this.element);
         this.addEvents();
@@ -60,7 +61,8 @@ export class Modal {
      */
     close() {
         document.body.classList.remove('body-scroll--none');
-        this.modalWrapper.setAttribute('aria-hidden', false);
+        this.modalWrapper.setAttribute('aria-hidden', true);
+        this.modalWrapper.setAttribute('aria-modal', false);
         this.modalWrapper.classList.remove('modal-open');
         this.modalWrapper.firstChild.remove();
         this.removeEvents();

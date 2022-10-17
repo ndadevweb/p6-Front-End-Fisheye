@@ -62,11 +62,22 @@ export class MediaSorter {
         this.arrowElement.classList.toggle('open');
         this.listElement.classList.toggle('open');
 
+        const isOpen = this.listElement.classList.contains('open');
+
         // Active / desactive les tabindex
-        const enableLiTabindex = this.listElement.classList.contains('open') === true ? 0 : -1;
+        const enableLiTabindex = isOpen === true ? 0 : -1;
         Array.from(this.listElement.querySelectorAll('li')).map((liElement) =>
             liElement.setAttribute('tabindex', enableLiTabindex)
         );
+
+        // Active / desactive les valeurs des attributs aria
+        if (isOpen === true) {
+            this.listElement.setAttribute('aria-hidden', false);
+            this.listElement.setAttribute('aria-expanded', true);
+        } else {
+            this.listElement.setAttribute('aria-hidden', true);
+            this.listElement.setAttribute('aria-expanded', false);
+        }
     }
 
     /**
@@ -162,6 +173,8 @@ export class MediaSorter {
 
         this.buildLiElements();
 
+        this.listElement.setAttribute('aria-hidden', true);
+        this.listElement.setAttribute('aria-expanded', false);
         this.listboxElement.append(this.buttonElement, this.listElement);
 
         this.labelElement.textContent = 'Trier par';
