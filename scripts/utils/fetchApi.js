@@ -1,10 +1,11 @@
+console.log(window.location.origin);
 class FetchApi {
     constructor() {
-        this.path = './data/photographers.json';
+        this.url = window.location.origin + '/data/photographers.json';
     }
 
     async fetchData() {
-        return fetch(this.path).then((response) => response.json());
+        return fetch(this.url).then((response) => response.json());
     }
 }
 
