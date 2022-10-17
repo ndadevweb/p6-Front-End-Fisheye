@@ -12,9 +12,10 @@ export class MediaLike {
 
     /**
      * Met a jour le compteur de like de l'element cible en argument
+     * Retourne 1 si le media est like ou -1 si celui-ci est dislike
      *
      * @param {Element} target
-     * @returns {Integer}
+     * @returns {Integer} 1 | -1
      */
     static updateCounterElement(target) {
         const mediaLikeContainer = target.closest('.media-like');

@@ -43,4 +43,14 @@ export class MediaEntity {
     get pathVideo() {
         return `./assets/medias/${this.photographerId}/${this.video}`;
     }
+
+    /**
+     * Met a jour le compteur de like
+     * Valeur positive ou negative
+     *
+     * @param {Integer} value
+     */
+    updateLikes(value) {
+        this.likes += parseInt(value);
+    }
 }

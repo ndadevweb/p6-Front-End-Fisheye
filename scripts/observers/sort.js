@@ -1,4 +1,4 @@
-export class LikesObserver {
+export class SortObserver {
     constructor() {
         this.observers = [];
     }
@@ -24,11 +24,11 @@ export class LikesObserver {
     /**
      * Notifie l'observer de mettre a jour les differents objets
      *
-     * - { Integer } value ( chiffre positif ou negatif 0)
+     * - { String } sortBy ( Nom du champs utilise pour le tri)
      *
-     * @param {Object} value
+     * @param {Object} props
      */
-    notify(value) {
-        this.observers.forEach((observer) => observer.update(value));
+    notify(props) {
+        this.observers.forEach((observer) => observer.update(props));
     }
 }

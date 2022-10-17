@@ -1,11 +1,13 @@
 import { FetchPhotographers, FetchMedias } from '../utils/fetchApi.js';
 import { PhotographerHeader } from '../components/photographer/photographerHeader.js';
+import { MediaSorter } from '../components/media/mediaSorter.js';
 import { MediaCards } from '../components/media/mediaCards.js';
 import { PhotographerComplementary } from '../components/photographer/photographerComplementary.js';
 import { ContactWithModal } from '../components/photographer/contactWithModal.js';
 import { PhotographerEntity } from '../entities/photographer.js';
 import { MediaEntity } from '../entities/media.js';
 import { LikesObserver } from '../observers/likes.js';
+import { SortObserver } from '../observers/sort.js';
 
 class PhotographerPage {
     async init() {
@@ -14,6 +16,7 @@ class PhotographerPage {
         this.photographerId = parseInt(params.get('id'));
 
         this.likesObserver = new LikesObserver();
+        this.sortObserver = new SortObserver();
 
         this.photographersApi = new FetchPhotographers();
         this.mediasApi = new FetchMedias();
@@ -32,8 +35,17 @@ class PhotographerPage {
             price: this.photographerEntity.price,
         });
 
+        // Gere le tri des medias
+        this.mediaSorter = new MediaSorter(this.sortObserver);
+
+        // Affichage des medias
+        this.mediaCards = new MediaCards(this.mediaEntities, this.likesObserver);
+
         // Met a jour le nombre total de likes a chaque like d'un media du photographe
         this.likesObserver.add(this.photographerComplementary);
+
+        // Met a jour le l'ordre des medias affiches dans la galerie
+        this.sortObserver.add(this.mediaCards);
 
         this.photographerHeader = PhotographerHeader({
             photographerEntity: this.photographerEntity,
@@ -45,10 +57,12 @@ class PhotographerPage {
         document.querySelector('.photographer-header').replaceWith(this.photographerHeader);
     }
 
+    async displaySorter() {
+        document.querySelector('.media-sorter').replaceWith(this.mediaSorter.render());
+    }
+
     async displayMedias() {
-        document
-            .querySelector('.medias-container')
-            .replaceWith(MediaCards(this.mediaEntities, this.likesObserver));
+        document.querySelector('.medias-container').replaceWith(this.mediaCards.render());
     }
 
     async displayComplementary() {
@@ -59,6 +73,7 @@ class PhotographerPage {
 
     async display() {
         this.displayHeader();
+        this.displaySorter();
         this.displayMedias();
         this.displayComplementary();
     }

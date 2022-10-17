@@ -9,6 +9,7 @@ import { Title } from '../ui/title.js';
  * @returns {Element}
  */
 export const MediaCard = (props, LikesObserver) => {
+    const { id, date } = props;
     const cardElement = document.createElement('article');
     const mediaLikeElement = new MediaLike(props, LikesObserver).render();
     const mediaElement = MediaSource(props);
@@ -17,9 +18,9 @@ export const MediaCard = (props, LikesObserver) => {
     cardElement.classList.add('media-container');
     cardElement.classList.add('focusable');
     cardElement.setAttribute('tabindex', '0');
-    cardElement.append(mediaElement);
-    cardElement.append(titleElement);
-    cardElement.append(mediaLikeElement);
+    cardElement.dataset.id = id;
+    cardElement.dataset.date = date;
+    cardElement.append(mediaElement, titleElement, mediaLikeElement);
 
     return cardElement;
 };

@@ -132,6 +132,21 @@
     margin-top: 50px;
 }
 
+/* Sorter */
+
+.media-sorter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.media-sorter label {
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 20px;
+}
+
 /* Heart - like */
 
 .heart {

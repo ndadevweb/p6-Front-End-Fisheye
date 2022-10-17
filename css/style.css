@@ -6,11 +6,25 @@
     box-sizing: border-box;
 }
 
+label,
+button {
+    cursor: pointer;
+}
+
+h1 {
+    color: #901c1c;
+    margin-right: 100px;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     max-width: 1240px;
     margin: 0 auto;
+}
+
+.hide {
+    display: none;
 }
 
 .btn {
@@ -37,12 +51,86 @@
     fill: #901c1c;
 }
 
+.btn-listbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+    height: 70px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 5px;
+    background: #901c1c;
+    color: #fff;
+    text-align: left;
+    font-size: 20px;
+    font-family: Arial;
+    font-weight: bold;
+}
+
+.arrow {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border: none;
+    border-left: 3px solid #fff;
+    border-top: 3px solid #fff;
+    transform: rotate(45deg);
+    transition: transform 0.65s;
+}
+
+.arrow.open {
+    transform: rotate(225deg);
+}
+
+.listbox {
+    position: absolute;
+    z-index: 1500;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    margin-top: -3px;
+    padding: 5px 22px 0 22px;
+    list-style: none;
+    border: none;
+    border-radius: 0 0 5px 5px;
+    color: #ffffff;
+    font-size: 20px;
+    font-family: Arial;
+    font-weight: bold;
+    background: #901c1c;
+    box-shadow: 0 5px 0 0 rgba(0, 0, 0, 0.2);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.85s, opacity 0.25s;
+}
+
+.listbox.open {
+    max-height: 100%;
+    opacity: 1;
+}
+
+.listbox.hide {
+    display: none;
+}
+
+.listbox li {
+    height: 70px;
+    /* margin: 0 11px; */
+    padding-top: 20px;
+    border-top: 1px solid #fff;
+    /* text-indent: 22px; */
+    cursor: pointer;
+}
+
 .focusable {
     outline: 0px;
     transition: outline 125ms ease;
 }
 
-.focusable:focus-visible {
+.focusable:focus/*-visible*/ {
     outline: 4px solid royalblue;
 }
 
@@ -55,22 +143,12 @@ body {
     margin: 0;
 }
 
-label,
-button {
-    cursor: pointer;
-}
-
 header.header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     height: 90px;
-}
-
-h1 {
-    color: #901c1c;
-    margin-right: 100px;
 }
 
 .logo {
