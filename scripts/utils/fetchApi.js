@@ -1,6 +1,6 @@
 class FetchApi {
     constructor() {
-        this.path = '../../data/photographers.json';
+        this.path = './data/photographers.json';
     }
 
     async fetchData() {
