@@ -23,9 +23,9 @@ export const UserCard = (props) => {
     taglineElement.classList.add('photographer-tagline');
     priceElement.classList.add('photographer-price');
 
-    [imageElement, fullnameElement].forEach((element) => linkElement.append(element));
-    [locationElement, taglineElement, priceElement].forEach((element) => complementaryElement.append(element));
-    [linkElement, complementaryElement].forEach((element) => cardElement.append(element));
+    linkElement.append(imageElement, fullnameElement);
+    complementaryElement.append(location, taglineElement);
+    cardElement.append(linkElement, complementaryElement);
 
     return cardElement;
 };

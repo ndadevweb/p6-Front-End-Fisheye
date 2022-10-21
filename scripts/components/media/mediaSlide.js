@@ -1,6 +1,8 @@
 import { ButtonLeft, ButtonRight, ButtonClose } from '../ui/index.js';
 
 /**
+ * Lightbox / slide
+ *
  * Gere l'affichage, la navigation, l'interaction de chaque element media
  */
 export class MediaSlide {
@@ -13,16 +15,29 @@ export class MediaSlide {
      */
     constructor({ mediaElementActive, mediaElements, callbackToClose }) {
         this.mediaElements = Array.from(mediaElements);
-        this.currentIndex = this.mediaElements.findIndex(
-            (element) => element === mediaElementActive
-        );
+        this.currentIndex = this.mediaElements.findIndex((element) => element === mediaElementActive);
         this.maxIndex = mediaElements.length - 1;
-        this.mediaElementActive = mediaElementActive.cloneNode(true);
         this.callbackToClose = callbackToClose;
+        this.initElements();
+        this.bindMethods();
+    }
+
+    /**
+     * Initialise les elements pour le slide / lightbox
+     */
+    initElements() {
+        this.mediaElementActive = this.currentElement();
         this.mediaSlideElement = document.createElement('div');
         this.buttonLeftElement = ButtonLeft();
         this.buttonRightElement = ButtonRight();
         this.buttonCloseModal = ButtonClose({ className: 'btn-close--orange' });
+        this.optionsMediaVideo();
+    }
+
+    /**
+     * Bind les methodes utilisees pour le traitement des evenements
+     */
+    bindMethods() {
         this.handleEvent = this.handleEvent.bind(this);
         this.close = this.close.bind(this);
     }
@@ -36,6 +51,10 @@ export class MediaSlide {
         this.buttonRightElement.addEventListener('click', this.handleEvent);
         this.buttonCloseModal.addEventListener('click', this.close);
         document.body.addEventListener('keyup', this.handleEvent);
+    }
+
+    currentElement() {
+        return this.mediaElements[this.currentIndex].cloneNode(true);
     }
 
     /**
@@ -55,13 +74,14 @@ export class MediaSlide {
     /**
      * Met a jour le conteneur pour afficher le media
      */
-    update() {
-        const newElement = this.mediaElements[this.currentIndex].cloneNode(true);
+    change() {
+        const newElement = this.currentElement();
         newElement.querySelector('.media-like').remove();
         newElement.setAttribute('tabindex', 0);
         newElement.addEventListener('click', this.handleEvent);
         this.mediaElementActive.replaceWith(newElement);
         this.mediaElementActive = newElement;
+        this.optionsMediaVideo();
     }
 
     /**
@@ -74,8 +94,7 @@ export class MediaSlide {
      * @param {Event} event
      */
     handleEvent(event) {
-        const action =
-            event.key || event.target.dataset.direction || event.target.tagName.toLowerCase();
+        const action = event.key || event.target.dataset.direction || event.target.tagName.toLowerCase();
 
         switch (action) {
             case 'Escape':
@@ -83,19 +102,17 @@ export class MediaSlide {
                 break;
             case 'Enter':
             case 'video':
-                this.playOrPauseIfVideo();
+                this.optionsMediaVideo();
                 break;
             case 'left':
             case 'ArrowLeft':
                 this.previous();
-                this.update();
-                this.playOrPauseIfVideo();
+                this.change();
                 break;
             case 'right':
             case 'ArrowRight':
                 this.next();
-                this.update();
-                this.playOrPauseIfVideo();
+                this.change();
                 break;
         }
     }
@@ -114,23 +131,17 @@ export class MediaSlide {
     }
 
     /**
-     * Gestion des interactions play / pause sur un media video
-     *
-     * @returns {Boolean}
+     * Ajout des attributs sur le media video qui est affiche
      */
-    playOrPauseIfVideo() {
-        const video = this.mediaElementActive.querySelector('video');
-
-        if (video === null) {
-            return false;
+    optionsMediaVideo() {
+        const elementVideo = this.mediaElementActive.querySelector('video');
+        if (elementVideo !== null) {
+            elementVideo.setAttribute('tabindex', 0);
+            elementVideo.preload = 'none';
+            elementVideo.loop = 'true';
+            elementVideo.controls = 'true';
+            elementVideo.autoplay = 'true';
         }
-
-        video.preload = 'none';
-        video.loop = 'true';
-
-        video.paused ? video.play() : video.pause();
-
-        return true;
     }
 
     /**
@@ -145,12 +156,7 @@ export class MediaSlide {
         this.mediaElementActive.setAttribute('tabindex', 0);
         this.addEvents();
 
-        this.mediaSlideElement.append(
-            this.buttonLeftElement,
-            this.mediaElementActive,
-            this.buttonCloseModal,
-            this.buttonRightElement
-        );
+        this.mediaSlideElement.append(this.buttonLeftElement, this.mediaElementActive, this.buttonCloseModal, this.buttonRightElement);
 
         return this.mediaSlideElement;
     }

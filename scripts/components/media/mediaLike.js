@@ -69,8 +69,7 @@ export class MediaLike {
     buildComponent() {
         this.mediaLikeContainer.classList.add('media-like');
         this.mediaLikeContainer.setAttribute('aria-label', 'likes');
-        this.mediaLikeContainer.append(this.buildCounter());
-        this.mediaLikeContainer.append(this.buildButton());
+        this.mediaLikeContainer.append(this.buildCounter(), this.buildButton());
 
         return this.mediaLikeContainer;
     }

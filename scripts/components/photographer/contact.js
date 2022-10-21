@@ -86,10 +86,7 @@ export class PhotographerFormContact {
         const message = this.buildField(['Votre message', 'textarea', 'message']);
         const button = this.buildField(['Envoyer', 'submit', '']);
 
-        [firstname, lastname, email, message, button].forEach((element) =>
-            this.form.append(element)
-        );
-
+        this.form.append(firstname, lastname, email, message, button);
         this.handleSubmit();
 
         return this.form;
@@ -113,10 +110,9 @@ export class PhotographerFormContact {
         spanTitle.textContent = 'Contactez-moi';
         spanPhotographerName.textContent = this.photographerName;
 
-        [spanTitle, spanPhotographerName].forEach((element) => title.append(element));
-        [title, image].forEach((element) => header.append(element));
-        [header, form].forEach((element) => this.containerForm.append(element));
-
+        title.append(spanTitle, spanPhotographerName);
+        header.append(title, image);
+        this.containerForm.append(header, form);
         this.containerForm.classList.add('contact-form');
 
         return this.containerForm;

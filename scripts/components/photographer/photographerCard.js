@@ -1,4 +1,9 @@
-import { PhotographerImage, PhotographerLocation, PhotographerTagline, PhotographerPrice } from './photographer.js';
+import {
+    PhotographerImage,
+    PhotographerLocation,
+    PhotographerTagline,
+    PhotographerPrice,
+} from './photographer.js';
 import { Title } from '../ui/title.js';
 
 /**
@@ -23,9 +28,9 @@ export const PhotographerCard = (props) => {
 
     complementaryElement.classList.add('photographer-complementary');
 
-    [imageElement, fullnameElement].forEach((element) => linkElement.append(element));
-    [locationElement, taglineElement, priceElement].forEach((element) => complementaryElement.append(element));
-    [linkElement, complementaryElement].forEach((element) => cardElement.append(element));
+    linkElement.append(imageElement, fullnameElement);
+    complementaryElement.append(locationElement, taglineElement, priceElement);
+    cardElement.append(linkElement, complementaryElement);
 
     return cardElement;
 };

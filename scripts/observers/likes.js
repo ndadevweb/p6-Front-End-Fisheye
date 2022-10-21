@@ -1,26 +1,6 @@
-export class LikesObserver {
-    constructor() {
-        this.observers = [];
-    }
+import { Observer } from './observer.js';
 
-    /**
-     * Ajoute un objet a mettre a jour
-     *
-     * @param {Object} observer
-     */
-    add(observer) {
-        this.observers.push(observer);
-    }
-
-    /**
-     * Supprime un objet a surveiller
-     *
-     * @param {Object} observer
-     */
-    remove(observer) {
-        this.observers = this.observers.filter((currentObserver) => currentObserver !== observer);
-    }
-
+export class LikesObserver extends Observer {
     /**
      * Notifie l'observer de mettre a jour les differents objets
      *

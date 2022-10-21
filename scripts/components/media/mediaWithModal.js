@@ -1,11 +1,17 @@
 import { Modal } from '../modal/modal.js';
 import { MediaSlide } from './mediaSlide.js';
 
-export const MediaWithModal = (mediaClicked, mediaElements) => {
+/**
+ *
+ * @param {Element} mediaSelected
+ * @param {Element} mediaElements
+ * @returns
+ */
+export const MediaWithModal = (mediaSelected, mediaElements) => {
     const modal = new Modal();
     const callbackToClose = () => modal.close();
     const mediaSlide = new MediaSlide({
-        mediaElementActive: mediaClicked,
+        mediaElementActive: mediaSelected,
         mediaElements: mediaElements,
         callbackToClose: callbackToClose,
     });

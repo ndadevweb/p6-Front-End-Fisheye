@@ -1,7 +1,6 @@
 class FetchApi {
     constructor() {
         this.url = './data/photographers.json';
-        this.options = { mode: 'no-cors' };
     }
 
     async fetchData() {

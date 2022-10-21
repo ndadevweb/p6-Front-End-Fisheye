@@ -5,11 +5,11 @@ export class PhotographerComplementary {
      * likes : sommes total des likes de chaque media du photographe
      * price : Taux Journalier Moyen du photographe
      *
-     * @param {Object} props  { likes, price }
+     * @param {Object} props { likes, price }
      */
-    constructor(props) {
-        this.likes = props.likes;
-        this.price = props.price;
+    constructor({ likes, price } = props) {
+        this.likes = likes;
+        this.price = price;
         this.complementaryContainer = document.createElement('aside');
     }
 
@@ -19,7 +19,7 @@ export class PhotographerComplementary {
      * @param {Integer} value
      */
     update(value) {
-        this.likes += value;
+        this.likes += parseInt(value);
         this.complementaryContainer.querySelector('.complementary-likes').textContent = this.likes;
     }
 

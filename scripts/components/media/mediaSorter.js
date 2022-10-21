@@ -66,9 +66,7 @@ export class MediaSorter {
 
         // Active / desactive les tabindex
         const enableLiTabindex = isOpen === true ? 0 : -1;
-        Array.from(this.listElement.querySelectorAll('li')).map((liElement) =>
-            liElement.setAttribute('tabindex', enableLiTabindex)
-        );
+        Array.from(this.listElement.querySelectorAll('li')).map((liElement) => liElement.setAttribute('tabindex', enableLiTabindex));
 
         // Active / desactive les valeurs des attributs aria
         if (isOpen === true) {
@@ -168,7 +166,7 @@ export class MediaSorter {
         this.buttonElement.dataset.label = this.listboxData[0]['label'];
         this.buttonElement.dataset.sortby = this.listboxData[0]['sortBy'];
         this.buttonElement.type = 'button';
-        this.buttonElement.id = 'sortBy';
+        this.buttonElement.id = 'sort-by';
         this.buttonElement.append(this.arrowElement);
 
         this.buildLiElements();

@@ -1,13 +1,8 @@
 import { FetchPhotographers, FetchMedias } from '../utils/fetchApi.js';
-import { PhotographerHeader } from '../components/photographer/photographerHeader.js';
-import { MediaSorter } from '../components/media/mediaSorter.js';
-import { MediaCards } from '../components/media/mediaCards.js';
-import { PhotographerComplementary } from '../components/photographer/photographerComplementary.js';
-import { ContactWithModal } from '../components/photographer/contactWithModal.js';
-import { PhotographerEntity } from '../entities/photographer.js';
-import { MediaEntity } from '../entities/media.js';
-import { LikesObserver } from '../observers/likes.js';
-import { SortObserver } from '../observers/sort.js';
+import { PhotographerEntity, MediaEntity } from '../entities/index.js';
+import { PhotographerHeader, PhotographerComplementary, ContactWithModal } from '../components/photographer/index.js';
+import { MediaSorter, MediaCards } from '../components/media/index.js';
+import { LikesObserver, SortObserver } from '../observers/index.js';
 
 class PhotographerPage {
     async init() {
@@ -66,9 +61,7 @@ class PhotographerPage {
     }
 
     async displayComplementary() {
-        document
-            .querySelector('.complementary')
-            .replaceWith(this.photographerComplementary.render());
+        document.querySelector('.complementary').replaceWith(this.photographerComplementary.render());
     }
 
     async display() {

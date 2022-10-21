@@ -43,8 +43,7 @@ export class MediaCards {
         switch (key) {
             case 'likes':
                 return (elementA, elementB) => {
-                    const likes = (element) =>
-                        parseInt(element.querySelector('.media-like-counter').textContent);
+                    const likes = (element) => parseInt(element.querySelector('.media-like-counter').textContent);
                     const [likesA, likesB] = [likes(elementA), likes(elementB)];
 
                     return likesA === likesB ? 0 : likesA > likesB ? -1 : 1;
@@ -89,18 +88,16 @@ export class MediaCards {
             if (event.target.closest('button') !== null) {
                 const value = MediaLike.updateCounterElement(event.target);
                 const mediaId = parseInt(event.target.closest('.media-container').dataset.id);
-                const mediaEntityIndex = this.mediaEntities.findIndex(
-                    (mediaEntity) => mediaEntity.id === mediaId
-                );
+                const mediaEntityIndex = this.mediaEntities.findIndex((mediaEntity) => mediaEntity.id === mediaId);
 
                 this.mediaEntities[mediaEntityIndex].updateLikes(value);
                 this.likesObserver.notify(value);
             }
 
             if (['IMG', 'VIDEO'].includes(event.target.tagName) === true) {
-                const mediaClicked = event.target.closest('article');
+                const mediaSelected = event.target.closest('article');
                 const mediaElements = event.currentTarget.querySelectorAll('.media-container');
-                MediaWithModal(mediaClicked, mediaElements).open();
+                MediaWithModal(mediaSelected, mediaElements).open();
             }
         });
     }

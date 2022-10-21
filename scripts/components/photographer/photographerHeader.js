@@ -23,19 +23,13 @@ export const PhotographerHeader = (props) => {
         callback: () => contactWithModal.open(),
     };
     const buttonModalElement = Button(buttonModalProps);
-
     const imageElement = PhotographerImage(photographerEntity);
 
     photographerInformationElement.classList.add('photographer-complementary');
     headerElement.classList.add('photographer-header');
 
-    [nameElement, locationElement, taglineElement].forEach((element) => {
-        photographerInformationElement.append(element);
-    });
-
-    [photographerInformationElement, buttonModalElement, imageElement].forEach((element) => {
-        headerElement.append(element);
-    });
+    photographerInformationElement.append(nameElement, locationElement, taglineElement);
+    headerElement.append(photographerInformationElement, buttonModalElement, imageElement);
 
     return headerElement;
 };
