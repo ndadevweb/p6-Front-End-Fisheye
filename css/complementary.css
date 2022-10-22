@@ -1,5 +1,5 @@
 .complementary {
-    position: sticky;
+    position: fixed;
     bottom: 0;
 
     align-self: end;

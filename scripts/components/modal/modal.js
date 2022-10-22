@@ -1,10 +1,40 @@
 export class Modal {
+    static observers = [];
+
     /**
      * Initialise la modal
      */
     constructor() {
         this.modalWrapper = document.querySelector('.modal');
+        this.targetLaunchedModal = null;
         this.element = null;
+    }
+
+    /**
+     * Observers a declencher a l'ouverture / fermeture de la modal
+     *
+     * @param  {Observer[]} observers
+     */
+    static setObserver(observer) {
+        Modal.observers.push(observer);
+    }
+
+    /**
+     * Element qui reprendra le focus apres fermeture de la modal
+     *
+     * @param {Element} targetLaunchedModal
+     */
+    setFocusElementAfterClosing(targetLaunchedModal) {
+        this.targetLaunchedModal = targetLaunchedModal;
+    }
+
+    /**
+     * Positionnement du focus sur l'element ayant declenche l'ouverture de la modal
+     */
+    focusOnTargetLaunchedModal() {
+        if (this.targetLaunchedModal !== null) {
+            this.targetLaunchedModal.focus();
+        }
     }
 
     /**
@@ -48,6 +78,7 @@ export class Modal {
      * Affiche la modal
      */
     open() {
+        Modal.observers.forEach((observer) => observer.notify({ type: 'modal', data: { active: false } }));
         document.body.classList.add('body-scroll--none');
         this.modalWrapper.setAttribute('aria-hidden', false);
         this.modalWrapper.setAttribute('aria-modal', true);
@@ -57,14 +88,16 @@ export class Modal {
     }
 
     /**
-     * Masque la modal
+     * Masque la modal et repositionne le focus sur l'element ayant ouvert la modal
      */
     close() {
+        Modal.observers.forEach((observer) => observer.notify({ type: 'modal', data: { active: true } }));
         document.body.classList.remove('body-scroll--none');
         this.modalWrapper.setAttribute('aria-hidden', true);
         this.modalWrapper.setAttribute('aria-modal', false);
         this.modalWrapper.classList.remove('modal-open');
         this.modalWrapper.firstChild.remove();
         this.removeEvents();
+        this.focusOnTargetLaunchedModal();
     }
 }

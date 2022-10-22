@@ -2,25 +2,52 @@ import { MediaSource } from './media.js';
 import { MediaLike } from './mediaLike.js';
 import { Title } from '../ui/title.js';
 
-/**
- * Retourne un element contenant un media Image ou Video
- *
- * @param {Object} props
- * @returns {Element}
- */
-export const MediaCard = (props, LikesObserver) => {
-    const { id, date } = props;
-    const cardElement = document.createElement('article');
-    const mediaLikeElement = new MediaLike(props, LikesObserver).render();
-    const mediaElement = MediaSource(props);
-    const titleElement = Title(props, 'h3');
+export class MediaCard {
+    /**
+     *
+     * @param {MediaEntity} MediaEntity
+     * @param {LikeObserver} LikesObserver
+     */
+    constructor(MediaEntity, LikesObserver) {
+        this.mediaEntity = MediaEntity;
+        this.likesObserver = LikesObserver;
+        this.initElements();
+    }
 
-    cardElement.classList.add('media-container');
-    cardElement.classList.add('focusable');
-    cardElement.setAttribute('tabindex', '0');
-    cardElement.dataset.id = id;
-    cardElement.dataset.date = date;
-    cardElement.append(mediaElement, titleElement, mediaLikeElement);
+    initElements() {
+        this.cardElement = document.createElement('article');
+        this.mediaLikeElement = new MediaLike(this.mediaEntity);
+        this.mediaElement = MediaSource(this.mediaEntity);
+        this.titleElement = Title(this.mediaEntity, 'h3');
+    }
 
-    return cardElement;
-};
+    /**
+     * Active / desactive les tabindex
+     *
+     * Si { active } = true : active les tabindex ( tabindex = 0 )
+     * si { active } = false : desactive les tabindex ( tabindex = -1 )
+     *
+     * @param {Object}
+     */
+    toggleTabindex({ active }) {
+        const value = active === false ? -1 : 0;
+
+        this.cardElement.setAttribute('tabindex', value);
+        this.mediaLikeElement.toggleTabindex({ active });
+    }
+
+    buildComponent() {
+        this.cardElement.classList.add('media-container');
+        this.cardElement.classList.add('focusable');
+        this.cardElement.setAttribute('tabindex', 0);
+        this.cardElement.dataset.id = this.mediaEntity.id;
+        this.cardElement.dataset.date = this.mediaEntity.date;
+        this.cardElement.append(this.mediaElement, this.titleElement, this.mediaLikeElement.render());
+
+        return this.cardElement;
+    }
+
+    render() {
+        return this.buildComponent();
+    }
+}

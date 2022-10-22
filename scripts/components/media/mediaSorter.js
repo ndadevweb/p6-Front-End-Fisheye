@@ -37,6 +37,44 @@ export class MediaSorter {
     }
 
     /**
+     * Methode pouvant etre utilisee par un observer
+     *
+     * Met a jour les elements du composant
+     * en activant / desactivant les tabindex
+     *
+     * - type : modal
+     * - data : { active }
+     *
+     * @param {Object}
+     */
+    update({ type, data }) {
+        switch (type) {
+            case 'modal':
+                this.toggleTabindex(data);
+                break;
+        }
+    }
+
+    /**
+     * Active desactive les tabindex
+     *
+     * Si { active } = true : active les tabindex ( tabindex = 0 )
+     * si { active } = false : desactive les tabindex ( tabindex = -1 )
+     *
+     * @param {Object}
+     */
+    toggleTabindex({ active }) {
+        const value = active === false ? -1 : 0;
+
+        this.buttonElement.setAttribute('tabindex', value);
+
+        // Les elements sont masques seulement si la liste est active / ouverte
+        if (this.listElement.getAttribute('aria-expanded') === true) {
+            this.listElement.querySelector('li').forEach((liElement) => liElement.setAttribute('tabindex', value));
+        }
+    }
+
+    /**
      * Bind les methodes utilisees pour le traitement des evenements
      */
     bindMethods() {
@@ -106,7 +144,7 @@ export class MediaSorter {
             liElement.replaceWith(elementSelected);
 
             // 5 - Tri des medias et fermeture du bouton listbox
-            this.sortObserver.notify({ sortBy: sortByKey });
+            this.sortObserver.notify({ type: 'sort', data: { sortByKey } });
             this.buttonElement.click();
             this.buttonElement.focus();
             this.buttonElement.append(this.arrowElement);
@@ -134,6 +172,9 @@ export class MediaSorter {
         }
     }
 
+    /**
+     * Construction des elements li
+     */
     buildLiElements() {
         const liElements = this.listboxData
             .filter((objectData) => objectData.sortBy !== this.buttonElement.dataset.sortby)

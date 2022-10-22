@@ -7,7 +7,12 @@ export class MediaLike {
      */
     constructor(props) {
         this.likes = parseInt(props.likes);
+        this.initElements();
+    }
+
+    initElements() {
         this.mediaLikeContainer = document.createElement('aside');
+        this.buttonElement = document.createElement('button');
     }
 
     /**
@@ -32,6 +37,20 @@ export class MediaLike {
     }
 
     /**
+     * Active desactive les tabindex
+     *
+     * Si { active } = true : active les tabindex ( tabindex = 0 )
+     * si { active } = false : desactive les tabindex ( tabindex = -1 )
+     *
+     * @param {Object}
+     */
+    toggleTabindex({ active }) {
+        const value = active === false ? -1 : 0;
+
+        this.buttonElement.setAttribute('tabindex', value);
+    }
+
+    /**
      * Retourne un element contenant le nombre de like
      *
      * @returns {Element}
@@ -51,14 +70,12 @@ export class MediaLike {
      * @returns {Element}
      */
     buildButton() {
-        const buttonElement = document.createElement('button');
+        this.buttonElement.type = 'button';
+        this.buttonElement.classList.add('media-like-btn');
+        this.buttonElement.classList.add('focusable');
+        this.buttonElement.innerHTML = Heart();
 
-        buttonElement.type = 'button';
-        buttonElement.classList.add('media-like-btn');
-        buttonElement.classList.add('focusable');
-        buttonElement.innerHTML = Heart();
-
-        return buttonElement;
+        return this.buttonElement;
     }
 
     /**

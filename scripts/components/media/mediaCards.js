@@ -12,26 +12,34 @@ export class MediaCards {
     constructor(mediaEntities, LikesObserver) {
         this.mediaEntities = mediaEntities;
         this.likesObserver = LikesObserver;
+        this.mediaCardElements = [];
         this.mediasElement = document.createElement('div');
     }
 
     /**
      * Methode pouvant etre utilisee par un observer
      *
-     * - {String} sortBy
-     *
      * @see sortBy()
-     * @param {Object} props
+     * @see toggleTabindex()
+     *
+     * @param {Object} { type, data }
      */
-    update({ sortBy }) {
-        const compare = this.sortBy(sortBy);
-        const childrenSorted = Array.from(this.mediasElement.children).sort(compare);
-
-        document.querySelector('.medias-container').replaceChildren(...childrenSorted);
+    update({ type, data }) {
+        switch (type) {
+            case 'sort':
+                const compare = this.sortBy(data.sortByKey);
+                const childrenSorted = Array.from(this.mediasElement.children).sort(compare);
+                document.querySelector('.medias-container').replaceChildren(...childrenSorted);
+                break;
+            case 'modal':
+                this.toggleTabindex(data);
+                break;
+        }
     }
 
     /**
      * Gestion du tri des medias par cle
+     *
      * - likes : Popularite
      * - date  : Date
      * - title : Titre
@@ -42,6 +50,7 @@ export class MediaCards {
     sortBy(key) {
         switch (key) {
             case 'likes':
+                // Du plus populaire au moins populaire
                 return (elementA, elementB) => {
                     const likes = (element) => parseInt(element.querySelector('.media-like-counter').textContent);
                     const [likesA, likesB] = [likes(elementA), likes(elementB)];
@@ -50,6 +59,7 @@ export class MediaCards {
                 };
 
             case 'date':
+                // Du plus recent au moins recent
                 return (elementA, elementB) => {
                     const toTime = (element) => new Date(element.dataset.date).getTime();
                     const [timeA, timeB] = [toTime(elementA), toTime(elementB)];
@@ -58,6 +68,7 @@ export class MediaCards {
                 };
 
             case 'title':
+                // Par ordre alphabetique
                 return (elementA, elementB) => {
                     const title = (element) => element.querySelector('h3').textContent;
                     const [titleA, titleB] = [title(elementA), title(elementB)];
@@ -68,6 +79,22 @@ export class MediaCards {
             default:
                 return (elementA, elementB) => 0;
         }
+    }
+
+    /**
+     * Active desactive les tabindex
+     *
+     * Si { active } = true : active les tabindex ( tabindex = 0 )
+     * si { active } = false : desactive les tabindex ( tabindex = -1 )
+     *
+     * @param {Object}
+     */
+    toggleTabindex({ active }) {
+        const value = active === false ? -1 : 0;
+
+        this.mediaCardElements.forEach((MediaCard) => {
+            MediaCard.toggleTabindex({ active });
+        });
     }
 
     /**
@@ -97,7 +124,9 @@ export class MediaCards {
             if (['IMG', 'VIDEO'].includes(event.target.tagName) === true) {
                 const mediaSelected = event.target.closest('article');
                 const mediaElements = event.currentTarget.querySelectorAll('.media-container');
-                MediaWithModal(mediaSelected, mediaElements).open();
+                const mediaWithModal = MediaWithModal(mediaSelected, mediaElements);
+                mediaWithModal.open();
+                mediaWithModal.setFocusElementAfterClosing(mediaSelected);
             }
         });
     }
@@ -112,8 +141,10 @@ export class MediaCards {
         this.addEvents();
 
         this.mediaEntities.forEach((mediaEntity) => {
-            const mediaCardElement = MediaCard(mediaEntity, this.likesObserver);
-            this.mediasElement.append(mediaCardElement);
+            const mediaCardElement = new MediaCard(mediaEntity, this.likesObserver);
+
+            this.mediaCardElements.push(mediaCardElement);
+            this.mediasElement.append(mediaCardElement.render());
         });
 
         return this.mediasElement;
