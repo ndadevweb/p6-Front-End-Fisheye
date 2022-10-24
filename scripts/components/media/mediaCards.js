@@ -13,7 +13,7 @@ export class MediaCards {
         this.mediaEntities = mediaEntities;
         this.likesObserver = LikesObserver;
         this.mediaCardElements = [];
-        this.mediasElement = document.createElement('div');
+        this.mediasElement = document.createElement('section');
     }
 
     /**
@@ -90,45 +90,96 @@ export class MediaCards {
      * @param {Object}
      */
     toggleTabindex({ active }) {
-        const value = active === false ? -1 : 0;
-
         this.mediaCardElements.forEach((MediaCard) => {
             MediaCard.toggleTabindex({ active });
         });
     }
 
     /**
+     * Met a jour le compteur de like
+     * notifie l'observer pour mettre a jour le compteur
+     * total des likes du photographe
+     *
+     * @param {Element} target
+     */
+    updateLikeCounter(target) {
+        const value = MediaLike.updateCounterElement(target);
+        const mediaId = parseInt(target.closest('.media-container').dataset.id);
+        const mediaEntityIndex = this.mediaEntities.findIndex((mediaEntity) => mediaEntity.id === mediaId);
+
+        this.mediaEntities[mediaEntityIndex].updateLikes(value);
+        this.likesObserver.notify(value);
+    }
+
+    /**
+     * Ouvre la modal lightbox / mediaSlide
+     *
+     * @param {Element} target
+     */
+    openMediaModal(target) {
+        const mediaSelected = target.closest('article');
+        const mediaElements = this.mediasElement.querySelectorAll('.media-container');
+        const mediaWithModal = MediaWithModal(mediaSelected, mediaElements);
+
+        mediaWithModal.open();
+    }
+
+    /**
+     * Bind les methodes utilisees pour le traitement des evenements
+     */
+    bindMethods() {
+        this.updateLikeCounter = this.updateLikeCounter.bind(this);
+        this.openMediaModal = this.openMediaModal.bind(this);
+        this.handleClickMediasElement = this.handleClickMediasElement.bind(this);
+        this.handleKeyUpMediasElement = this.handleKeyUpMediasElement.bind(this);
+    }
+
+    /**
+     * Gere les evenements click de chaque element
+     * - Gestion du like
+     * - Ouverture de la modal lightbox / mediaSlide
+     * - Un seul... pour les gouverner tous... o
+     *
+     * @param {Event} event
+     */
+    handleClickMediasElement(event) {
+        if (event.target.closest('.media-like-btn') !== null) {
+            this.updateLikeCounter(event.target);
+        }
+
+        if (['IMG', 'VIDEO'].includes(event.target.tagName) === true) {
+            this.openMediaModal(event.target);
+        }
+    }
+
+    /**
+     * Gere les evenements clavier ( Enter )
+     * - Ouverture de la modal lorsque l'element qui a le focus
+     *   a la classe .media-container
+     *
+     * @param {Event} event
+     * @returns
+     */
+    handleKeyUpMediasElement(event) {
+        if (event.key !== 'Enter') {
+            return null;
+        }
+
+        if (event.target.classList.contains('media-container')) {
+            this.openMediaModal(event.target);
+        }
+    }
+
+    /**
      * Initialise les evenements clavier / souris
+     *
      * - Gestion des likes sur un media
      * - Gestion de la modal lightbox
      */
     addEvents() {
-        this.mediasElement.addEventListener('keyup', (event) => {
-            const target = event.target.querySelector('img, video');
-
-            if (target !== null && event.key === 'Enter') {
-                target.click();
-            }
-        });
-
-        this.mediasElement.addEventListener('click', (event) => {
-            if (event.target.closest('button') !== null) {
-                const value = MediaLike.updateCounterElement(event.target);
-                const mediaId = parseInt(event.target.closest('.media-container').dataset.id);
-                const mediaEntityIndex = this.mediaEntities.findIndex((mediaEntity) => mediaEntity.id === mediaId);
-
-                this.mediaEntities[mediaEntityIndex].updateLikes(value);
-                this.likesObserver.notify(value);
-            }
-
-            if (['IMG', 'VIDEO'].includes(event.target.tagName) === true) {
-                const mediaSelected = event.target.closest('article');
-                const mediaElements = event.currentTarget.querySelectorAll('.media-container');
-                const mediaWithModal = MediaWithModal(mediaSelected, mediaElements);
-                mediaWithModal.open();
-                mediaWithModal.setFocusElementAfterClosing(mediaSelected);
-            }
-        });
+        this.bindMethods();
+        this.mediasElement.addEventListener('click', this.handleClickMediasElement);
+        this.mediasElement.addEventListener('keyup', this.handleKeyUpMediasElement);
     }
 
     /**
@@ -138,6 +189,8 @@ export class MediaCards {
      */
     buildComponent() {
         this.mediasElement.classList.add('medias-container');
+        this.mediasElement.setAttribute('aria-label', 'Medias');
+        this.mediasElement.setAttribute('aria-shortcuts', 'alt+3');
         this.addEvents();
 
         this.mediaEntities.forEach((mediaEntity) => {

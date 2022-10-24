@@ -1,9 +1,10 @@
 import { FetchPhotographers, FetchMedias } from '../utils/fetchApi.js';
+import { globalShortcuts } from '../utils/globalShortcuts.js';
 import { PhotographerEntity, MediaEntity } from '../entities/index.js';
 import { PhotographerHeader, PhotographerComplementary } from '../components/photographer/index.js';
 import { MediaSorter, MediaCards } from '../components/media/index.js';
 import { LikesObserver, SortObserver, AccessibilityObserver } from '../observers/index.js';
-import { Modal } from '../components/modal/modal.js';
+import { Modal } from '../components/ui/index.js';
 
 class PhotographerPage {
     async init() {
@@ -23,6 +24,9 @@ class PhotographerPage {
 
         this.medias = await this.mediasApi.fetchAllByPhotographerId(this.photographerId);
         this.mediaEntities = this.medias.map((media) => new MediaEntity(media));
+
+        // Mise a jour du titre du document
+        document.title += ` ${this.photographerEntity.name}`;
 
         // Observer a declencher lors de l'ouverture / fermetures de la modal
         Modal.setObserver(this.accessibilityObserver);
@@ -62,6 +66,10 @@ class PhotographerPage {
         this.accessibilityObserver.add(this.photographerHeader);
         this.accessibilityObserver.add(this.mediaSorter);
         this.accessibilityObserver.add(this.mediaCards);
+
+        // Raccourcis clavier pour se positionner sur les elements importants de la page
+        // via les raccourcis clavier definis
+        new globalShortcuts('photographer').init();
     }
 
     /**

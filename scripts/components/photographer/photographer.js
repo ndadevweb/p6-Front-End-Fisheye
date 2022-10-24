@@ -15,7 +15,7 @@ export const PhotographerImage = (props) => {
     containerImageElement.append(imageElement);
 
     imageElement.classList.add('image-photographer');
-    imageElement.setAttribute('alt', '');
+    imageElement.setAttribute('alt', name);
 
     imageElement.addEventListener('load', (event) => {
         event.currentTarget.classList.add('image-photographer-opacity-progress');

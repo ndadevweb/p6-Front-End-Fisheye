@@ -12,9 +12,7 @@ export const Button = (props) => {
     buttonElement.textContent = value;
     buttonElement.addEventListener('click', callback);
 
-    ['btn', 'contact_button', 'focusable'].forEach((className) =>
-        buttonElement.classList.add(className)
-    );
+    ['btn', 'contact_button', 'focusable'].forEach((className) => buttonElement.classList.add(className));
 
     return buttonElement;
 };
@@ -28,14 +26,13 @@ export const Button = (props) => {
  */
 export const ButtonClose = (props) => {
     const { className, callback } = props;
-    const buttonElement = document.createElement('button');
-    buttonElement.type = 'button';
-    buttonElement.dataset.action = 'close';
-    buttonElement.classList.add('btn-close');
-    buttonElement.addEventListener('click', callback);
+    const buttonElement = document.createElement('span');
 
+    buttonElement.setAttribute('tabindex', 0);
+    buttonElement.setAttribute('role', 'button');
+    buttonElement.classList.add('btn-close');
     buttonElement.innerHTML = `
-        <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" class="${className}" />
         </svg>
     `;

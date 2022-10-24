@@ -73,6 +73,7 @@ export class MediaLike {
         this.buttonElement.type = 'button';
         this.buttonElement.classList.add('media-like-btn');
         this.buttonElement.classList.add('focusable');
+        this.buttonElement.setAttribute('aria-label', 'likes');
         this.buttonElement.innerHTML = Heart();
 
         return this.buttonElement;

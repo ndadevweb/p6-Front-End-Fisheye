@@ -147,6 +147,16 @@
     margin-right: 20px;
 }
 
+.media-sorter .listbox li {
+    text-indent: 0;
+    transition: text-indent 500ms;
+}
+
+.media-sorter .listbox li:hover,
+.media-sorter .listbox li:focus {
+    text-indent: 10px;
+}
+
 /* Heart - like */
 
 .heart {

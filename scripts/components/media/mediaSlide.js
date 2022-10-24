@@ -38,43 +38,143 @@ export class MediaSlide {
      * Bind les methodes utilisees pour le traitement des evenements
      */
     bindMethods() {
-        this.handleEvent = this.handleEvent.bind(this);
         this.close = this.close.bind(this);
+        this.handleKeyUpButtonClose = this.handleKeyUpButtonClose.bind(this);
+        this.handleClickChangeMedia = this.handleClickChangeMedia.bind(this);
+        this.handleKeyUpGlobal = this.handleKeyUpGlobal.bind(this);
     }
 
     /**
-     * Initialise les evenements pour interagir avec le contenu de la modale
+     * Initialise les evenements pour interagir avec le contenu de la modal
      */
     addEvents() {
-        this.mediaElementActive.addEventListener('click', this.handleEvent);
-        this.buttonLeftElement.addEventListener('click', this.handleEvent);
-        this.buttonRightElement.addEventListener('click', this.handleEvent);
         this.buttonCloseModal.addEventListener('click', this.close);
-        document.body.addEventListener('keyup', this.handleEvent);
-    }
-
-    currentElement() {
-        return this.mediaElements[this.currentIndex].cloneNode(true);
+        this.buttonCloseModal.addEventListener('keyup', this.handleKeyUpButtonClose);
+        this.buttonLeftElement.addEventListener('click', this.handleClickChangeMedia);
+        this.buttonRightElement.addEventListener('click', this.handleClickChangeMedia);
+        document.body.addEventListener('keyup', this.handleKeyUpGlobal);
     }
 
     /**
-     * Met a jour l'index pour recuperer l'element correspondant
+     * Gestion des touches clavier ( Enter, Space )
+     * pour fermer la modal
+     *
+     * @param {Event} event
+     */
+    handleKeyUpButtonClose(event) {
+        if ([' ', 'Enter'].includes(event.key) === true && event.target.classList.contains('btn-close') === true) {
+            this.close(event);
+        }
+    }
+
+    /**
+     * Gestion des boutons Fleche Gauche et Fleche Droite
+     * pour changer de media
+     *
+     * @param {Event} event
+     */
+    handleClickChangeMedia(event) {
+        const direction = event.target.dataset.direction;
+
+        this.change(direction);
+    }
+
+    /**
+     * Gestion des touches clavier Escape, ArrowLeft, ArrowRight, Home, End
+     *
+     * - Escape : Ferme la modal
+     * - ArrowLeft | ArrowRight : Affiche le media precedent / suivant
+     * - Home | End : Affiche le premier / dernier element
+     *
+     * @param {Event} event
+     * @returns {null}
+     */
+    handleKeyUpGlobal(event) {
+        const keysAllowed = { ArrowLeft: 'left', ArrowRight: 'right', Home: 'first', End: 'end' };
+
+        if (Object.keys(keysAllowed).includes(event.key) === false) {
+            return null;
+        }
+
+        if (event.key === 'Escape') {
+            this.close(event);
+
+            return null;
+        }
+
+        this.change(keysAllowed[event.key]);
+    }
+
+    /**
+     * Retourne un element contenant le media a afficher
+     *
+     * @returns {Element}
+     */
+    currentElement() {
+        const cloneCardElement = this.mediaElements[this.currentIndex].cloneNode(true);
+        const mediaElement = cloneCardElement.querySelector('.media-container-source > img');
+
+        if (mediaElement !== null) {
+            const imageName = cloneCardElement.querySelector('h3').textContent;
+
+            mediaElement.alt = imageName;
+        }
+
+        return cloneCardElement;
+    }
+
+    /**
+     * Met a jour l'index pour recuperer l'element precedent
      */
     previous() {
         this.currentIndex = this.currentIndex === 0 ? this.maxIndex : this.currentIndex - 1;
     }
 
     /**
-     * Met a jour l'index pour recuperer l'element correspondant
+     * Met a jour l'index pour recuperer l'element suivant
      */
     next() {
         this.currentIndex = this.currentIndex === this.maxIndex ? 0 : this.currentIndex + 1;
     }
 
     /**
-     * Met a jour le conteneur pour afficher le media
+     * Met a jour l'index pour recuperer le premier element
      */
-    change() {
+    first() {
+        this.currentIndex = 0;
+    }
+
+    /**
+     * Met a jour l'index pour recuperer le dernier element
+     */
+    end() {
+        this.currentIndex = this.maxIndex;
+    }
+
+    /**
+     * Met a jour le conteneur pour afficher le media
+     * et positionne le focus sur l'element correspondant
+     */
+    change(direction) {
+        switch (direction) {
+            case 'left':
+                this.previous();
+                this.buttonLeftElement.focus();
+                break;
+            case 'right':
+                this.next();
+                this.buttonRightElement.focus();
+                break;
+            case 'first':
+                this.first();
+                this.buttonLeftElement.focus();
+                break;
+            case 'end':
+                this.end();
+                this.buttonRightElement.focus();
+                break;
+        }
+
         const newElement = this.currentElement();
         newElement.querySelector('.media-like').remove();
         newElement.setAttribute('tabindex', 0);
@@ -82,39 +182,6 @@ export class MediaSlide {
         this.mediaElementActive.replaceWith(newElement);
         this.mediaElementActive = newElement;
         this.optionsMediaVideo();
-    }
-
-    /**
-     * Gestion des interactions clic et clavier
-     *
-     * - Echap / clic croix pour fermer la modal
-     * - Enter / clic pour mettre en pause / play un media video
-     * - Fleche Gauche / Fleche Droite / clic fleche pour naviguer entre chaque media
-     *
-     * @param {Event} event
-     */
-    handleEvent(event) {
-        const action = event.key || event.target.dataset.direction || event.target.tagName.toLowerCase();
-
-        switch (action) {
-            case 'Escape':
-                this.close(event);
-                break;
-            case 'Enter':
-            case 'video':
-                this.optionsMediaVideo();
-                break;
-            case 'left':
-            case 'ArrowLeft':
-                this.previous();
-                this.change();
-                break;
-            case 'right':
-            case 'ArrowRight':
-                this.next();
-                this.change();
-                break;
-        }
     }
 
     /**
@@ -126,7 +193,7 @@ export class MediaSlide {
      * @param {Event} event
      */
     close(event) {
-        document.body.removeEventListener('keyup', this.handleEvent);
+        document.body.removeEventListener('keyup', this.handleKeyUpGlobal);
         this.callbackToClose();
     }
 
@@ -153,7 +220,12 @@ export class MediaSlide {
     buildComponent() {
         this.mediaSlideElement.classList.add('media-slide-container');
         this.mediaElementActive.querySelector('.media-like').remove();
+        this.mediaElementActive.setAttribute('aria-keyshortcuts', 'ArrowLeft, ArrowRight, Home, End, Escape');
         this.mediaElementActive.setAttribute('tabindex', 0);
+        this.buttonLeftElement.setAttribute('aria-label', 'Previous image');
+        this.buttonRightElement.setAttribute('aria-label', 'Next image');
+        this.buttonCloseModal.setAttribute('aria-label', 'image closeup view');
+        this.buttonCloseModal.setAttribute('aria-keyshortcuts', 'Escape');
         this.addEvents();
 
         this.mediaSlideElement.append(this.buttonLeftElement, this.mediaElementActive, this.buttonCloseModal, this.buttonRightElement);

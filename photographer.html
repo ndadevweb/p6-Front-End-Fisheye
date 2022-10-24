@@ -2,28 +2,28 @@
 <html lang="fr">
 
 <head>
-    <meta charset="utf-8" />
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/png" href="assets/favicon.png" />
-    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet" />
+    <meta charset="utf-8">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
     <title>Fisheye - photographe</title>
 </head>
 
 <body>
-    <header class="container header" role="banner">
-        <a href="./index.html" id="link-homepage" class="focusable">
-            <img src="assets/images/logo.png" alt="Fisheye Home page" class="logo" />
+    <header class="container header">
+        <a href="./index.html" id="link-homepage" class="focusable" aria-keyshortcuts="alt+0">
+            <img src="assets/images/logo.png" alt="Fisheye Home page" class="logo">
         </a>
     </header>
 
     <main id="main" class="container">
         <header class="photographer-header"></header>
 
-        <div class="media-sorter"></div>
+        <aside class="media-sorter"></aside>
 
-        <div class="medias-container"></div>
+        <section class="medias-container" aria-label="Medias"></section>
 
-        <div class="modal" role="dialog" aria-hidden="true"></div>
+        <div class="modal" role="dialog" aria-hidden="true" aria-modal="false"></div>
 
         <aside class="complementary"></aside>
     </main>

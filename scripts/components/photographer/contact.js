@@ -1,24 +1,75 @@
+import { ButtonClose } from '../ui/button.js';
+
 export class PhotographerFormContact {
     constructor(photographerName, callbackToClose) {
         this.photographerName = photographerName;
+        this.callbackToClose = callbackToClose;
+        this.initElements();
+    }
+
+    initElements() {
         this.containerForm = document.createElement('div');
         this.form = document.createElement('form');
-        this.callbackToClose = callbackToClose;
+        this.header = document.createElement('header');
+        this.title = document.createElement('h2');
+        this.spanTitle = document.createElement('span');
+        this.spanPhotographerName = document.createElement('span');
+        this.form = this.buildForm();
+    }
+
+    /**
+     * Bind les methodes utilisees pour le traitement des evenements
+     */
+    bindMethods() {
+        this.close = this.close.bind(this);
+        this.handleKeyUpButtonClose = this.handleKeyUpButtonClose.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    fuck(event) {}
+
+    addEvents() {
+        this.bindMethods();
+        this.buttonClose.addEventListener('click', this.close);
+        this.buttonClose.addEventListener('keyup', this.handleKeyUpButtonClose);
+        this.form.addEventListener('submit', this.handleSubmit);
     }
 
     /**
      * Traitement des donnees du formulaire
+     *
+     * @param {Event}
      */
-    handleSubmit() {
-        this.form.addEventListener('submit', (event) => {
-            event.preventDefault();
+    handleSubmit(event) {
+        event.preventDefault();
 
-            document.querySelectorAll('input, textarea').forEach((element) => {
-                console.log(element.name, ' : ', element.value);
-            });
-
-            event.target.reset();
+        document.querySelectorAll('input, textarea').forEach((element) => {
+            console.log(element.name, ' : ', element.value);
         });
+
+        event.target.reset();
+    }
+
+    /**
+     * Evenemens clavier pour fermer la modal
+     *
+     * @param {Event} event
+     */
+    handleKeyUpButtonClose(event) {
+        if (['Enter', ' '].includes(event.key) === true) {
+            this.close();
+        }
+    }
+
+    /**
+     * Gestion de la fermeture de la modal
+     *
+     * - Appel callback de la fonction de fermeture de l'objet Modal
+     *
+     * @param {Event} event
+     */
+    close(event) {
+        this.callbackToClose();
     }
 
     /**
@@ -43,6 +94,8 @@ export class PhotographerFormContact {
                 fieldElement.type = inputType;
                 fieldElement.name = inputName;
                 fieldElement.id = inputName;
+                fieldElement.setAttribute('aria-labelledby', inputName);
+                fieldElement.setAttribute('required', true);
 
                 break;
             case 'textarea':
@@ -51,15 +104,17 @@ export class PhotographerFormContact {
                 fieldElement = document.createElement('textarea');
                 fieldElement.name = inputName;
                 fieldElement.id = inputName;
+                fieldElement.setAttribute('aria-labelledby', inputName);
+                fieldElement.setAttribute('required', true);
 
                 break;
             case 'submit':
                 fieldElement = document.createElement('button');
                 fieldElement.type = inputType;
                 fieldElement.textContent = labelName;
-                fieldElement.classList.add('btn');
-                fieldElement.classList.add('contact_button');
+                fieldElement.classList.add('btn-contact');
                 fieldElement.classList.add('focusable');
+                fieldElement.setAttribute('required', true);
 
                 break;
         }
@@ -87,7 +142,6 @@ export class PhotographerFormContact {
         const button = this.buildField(['Envoyer', 'submit', '']);
 
         this.form.append(firstname, lastname, email, message, button);
-        this.handleSubmit();
 
         return this.form;
     }
@@ -98,22 +152,17 @@ export class PhotographerFormContact {
      * @return {Element}
      */
     buildComponent() {
-        const header = document.createElement('header');
-        const title = document.createElement('h2');
-        const spanTitle = document.createElement('span');
-        const spanPhotographerName = document.createElement('span');
-        const image = document.createElement('img');
-        const form = this.buildForm();
+        this.buttonClose = ButtonClose({ className: 'btn-close--white' });
+        this.buttonClose.setAttribute('aria-label', 'Close dialog');
+        this.buttonClose.setAttribute('aria-keyshortcuts', 'Escape');
+        this.spanTitle.textContent = 'Contactez-moi';
+        this.spanPhotographerName.textContent = this.photographerName;
 
-        image.addEventListener('click', () => this.callbackToClose());
-        image.src = './assets/icons/close.svg';
-        spanTitle.textContent = 'Contactez-moi';
-        spanPhotographerName.textContent = this.photographerName;
-
-        title.append(spanTitle, spanPhotographerName);
-        header.append(title, image);
-        this.containerForm.append(header, form);
+        this.title.append(this.spanTitle, this.spanPhotographerName);
+        this.header.append(this.title, this.buttonClose);
+        this.containerForm.append(this.header, this.form);
         this.containerForm.classList.add('contact-form');
+        this.addEvents();
 
         return this.containerForm;
     }

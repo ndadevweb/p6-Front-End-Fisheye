@@ -22,6 +22,8 @@ export class PhotographerHeader {
             type: 'button',
             callback: () => this.contactWithModal.open(),
         });
+        this.buttonModalElement.setAttribute('aria-label', 'Contact Me');
+        this.buttonModalElement.setAttribute('aria-keyshortcuts', 'alt+1');
         this.contactWithModal.setFocusElementAfterClosing(this.buttonModalElement);
     }
 

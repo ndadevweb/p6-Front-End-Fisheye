@@ -1,11 +1,11 @@
-import { Modal } from '../modal/modal.js';
+import { Modal } from '../ui/index.js';
 import { MediaSlide } from './mediaSlide.js';
 
 /**
  *
  * @param {Element} mediaSelected
  * @param {Element} mediaElements
- * @returns
+ * @returns {Modal}
  */
 export const MediaWithModal = (mediaSelected, mediaElements) => {
     const modal = new Modal();
@@ -17,6 +17,7 @@ export const MediaWithModal = (mediaSelected, mediaElements) => {
     });
 
     modal.setContent(mediaSlide.render());
+    modal.setFocusElementAfterClosing(mediaSelected);
 
     return modal;
 };

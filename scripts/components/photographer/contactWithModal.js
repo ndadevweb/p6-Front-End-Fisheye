@@ -1,11 +1,11 @@
-import { Modal } from '../modal/modal.js';
+import { Modal } from '../ui/index.js';
 import { PhotographerFormContact } from './contact.js';
 
 /**
  * Retourne un objet modal contenant le formulaire de contact
  *
  * @param {PhotographerEntity} photographerEntity
- * @returns {Element}
+ * @returns {Modal}
  */
 export const ContactWithModal = (photographerEntity) => {
     const { name } = photographerEntity;

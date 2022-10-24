@@ -42,7 +42,7 @@ export class Modal {
      */
     addEvents() {
         this.handleKeyUp = this.handleKeyUp.bind(this);
-        document.body.addEventListener('keyup', this.handleKeyUp);
+        document.addEventListener('keyup', this.handleKeyUp);
     }
 
     /**
@@ -62,7 +62,7 @@ export class Modal {
      * Suppression des evenements
      */
     removeEvents() {
-        document.body.removeEventListener('keyup', this.handleKeyUp);
+        document.removeEventListener('keyup', this.handleKeyUp);
     }
 
     /**
@@ -80,6 +80,7 @@ export class Modal {
     open() {
         Modal.observers.forEach((observer) => observer.notify({ type: 'modal', data: { active: false } }));
         document.body.classList.add('body-scroll--none');
+        document.body.classList.add('modal-opened');
         this.modalWrapper.setAttribute('aria-hidden', false);
         this.modalWrapper.setAttribute('aria-modal', true);
         this.modalWrapper.classList.add('modal-open');
@@ -93,6 +94,7 @@ export class Modal {
     close() {
         Modal.observers.forEach((observer) => observer.notify({ type: 'modal', data: { active: true } }));
         document.body.classList.remove('body-scroll--none');
+        document.body.classList.remove('modal-opened');
         this.modalWrapper.setAttribute('aria-hidden', true);
         this.modalWrapper.setAttribute('aria-modal', false);
         this.modalWrapper.classList.remove('modal-open');

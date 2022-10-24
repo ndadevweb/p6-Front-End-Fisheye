@@ -1,9 +1,4 @@
-import {
-    PhotographerImage,
-    PhotographerLocation,
-    PhotographerTagline,
-    PhotographerPrice,
-} from './photographer.js';
+import { PhotographerImage, PhotographerLocation, PhotographerTagline, PhotographerPrice } from './photographer.js';
 import { Title } from '../ui/title.js';
 
 /**
@@ -16,7 +11,7 @@ import { Title } from '../ui/title.js';
 export const PhotographerCard = (props) => {
     const cardElement = document.createElement('article');
     const linkElement = document.createElement('a');
-    const imageElement = PhotographerImage(props);
+    const imageElement = PhotographerImage({ name: '', pathPortrait: props.pathPortrait });
     const fullnameElement = Title({ title: props.name }, 'h2');
     const complementaryElement = document.createElement('aside');
     const locationElement = PhotographerLocation(props);
@@ -24,6 +19,7 @@ export const PhotographerCard = (props) => {
     const priceElement = PhotographerPrice(props);
 
     linkElement.href = `photographer.html?id=${props.id}`;
+    linkElement.setAttribute('aria-label', props.name);
     linkElement.classList.add('focusable');
 
     complementaryElement.classList.add('photographer-complementary');
