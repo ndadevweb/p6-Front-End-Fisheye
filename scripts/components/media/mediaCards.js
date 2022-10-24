@@ -14,6 +14,7 @@ export class MediaCards {
         this.likesObserver = LikesObserver;
         this.mediaCardElements = [];
         this.mediasElement = document.createElement('section');
+        this.defaultSortedByKey = 'likes';
     }
 
     /**
@@ -29,7 +30,7 @@ export class MediaCards {
             case 'sort':
                 const compare = this.sortBy(data.sortByKey);
                 const childrenSorted = Array.from(this.mediasElement.children).sort(compare);
-                document.querySelector('.medias-container').replaceChildren(...childrenSorted);
+                this.mediasElement.replaceChildren(...childrenSorted);
                 break;
             case 'modal':
                 this.toggleTabindex(data);
@@ -199,6 +200,8 @@ export class MediaCards {
             this.mediaCardElements.push(mediaCardElement);
             this.mediasElement.append(mediaCardElement.render());
         });
+
+        this.update({ type: 'sort', data: { sortByKey: this.defaultSortedByKey } });
 
         return this.mediasElement;
     }

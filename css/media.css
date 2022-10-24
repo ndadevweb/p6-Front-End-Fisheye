@@ -101,7 +101,7 @@
 }
 
 .media-slide-container .media-slide-btn-left {
-    grid-column: 0;
+    grid-column: 1;
     grid-row: 1;
     justify-self: end;
     transform: rotate(-45deg);
