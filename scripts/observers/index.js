@@ -1,3 +1,3 @@
-export { LikesObserver } from './likes.js';
-export { SortObserver } from './sort.js';
-export { AccessibilityObserver } from './accessibility.js';
+export { default as LikesObserver } from './likes.js';
+export { default as SortObserver } from './sort.js';
+export { default as AccessibilityObserver } from './accessibility.js';

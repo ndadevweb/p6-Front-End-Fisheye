@@ -1,5 +1,4 @@
-export const Heart = (props) => {
-    return `
+const Heart = () => `
         <svg viewBox="0 0 325 325" width="26" height="25" class="heart" aria-hidden="true">
             <path
                 d="M232.479,13.406c-24.561,0-48.827,9.248-67.512,25.279c-18.688-16.032-42.955-25.279-67.517-25.279
@@ -10,4 +9,5 @@ export const Heart = (props) => {
             />
         </svg>
     `;
-};
+
+export default Heart;

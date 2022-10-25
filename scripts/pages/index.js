@@ -1,23 +1,23 @@
-import { FetchPhotographers } from '../utils/fetchApi.js';
-import { globalShortcuts } from '../utils/globalShortcuts.js';
+import { FetchPhotographers, GlobalShortcuts } from '../utils/index.js';
 import { PhotographerEntity } from '../entities/index.js';
 import { PhotographerCard } from '../components/photographer/index.js';
 
 class IndexPage {
-    async init() {
-        this.photographersApi = new FetchPhotographers();
-        this.photographers = await this.photographersApi.fetchAll();
-        this.photographersEntities = this.photographers.map((photographer) => new PhotographerEntity(photographer));
+  async init() {
+    this.photographersApi = new FetchPhotographers();
+    this.photographers = await this.photographersApi.fetchAll();
+    this.photographersEntities = this.photographers.map((photographer) => new PhotographerEntity(photographer));
 
-        // Raccourcis clavier pour se positionner sur les elements importants de la page
-        // via les raccourcis clavier definis
-        new globalShortcuts('homepage').init();
-    }
+    // Raccourcis clavier pour se positionner sur les elements importants de la page
+    // via les raccourcis clavier definis
+    const globalShortcuts = new GlobalShortcuts('homepage');
+    globalShortcuts.init();
+  }
 
-    async display() {
-        const photographersSection = document.querySelector('.photographer_section');
-        this.photographersEntities.forEach((photographer) => photographersSection.append(PhotographerCard(photographer)));
-    }
+  async display() {
+    const photographersSection = document.querySelector('.photographer_section');
+    this.photographersEntities.forEach((photographer) => photographersSection.append(PhotographerCard(photographer)));
+  }
 }
 
 const page = new IndexPage();

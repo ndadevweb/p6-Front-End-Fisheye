@@ -1,2 +1,2 @@
-export { PhotographerEntity } from './photographer.js';
-export { MediaEntity } from './media.js';
+export { default as PhotographerEntity } from './photographer.js';
+export { default as MediaEntity } from './media.js';

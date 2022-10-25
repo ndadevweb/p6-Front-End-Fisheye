@@ -5,11 +5,13 @@
  * @param {String} tagLevel
  * @returns {Element}
  */
-export const Title = (props, tagLevel = 'h1') => {
-    const { title } = props;
-    const titleElement = document.createElement(tagLevel);
+const Title = (props, tagLevel = 'h1') => {
+  const { title } = props;
+  const titleElement = document.createElement(tagLevel);
 
-    titleElement.textContent = title;
+  titleElement.textContent = title;
 
-    return titleElement;
+  return titleElement;
 };
+
+export default Title;

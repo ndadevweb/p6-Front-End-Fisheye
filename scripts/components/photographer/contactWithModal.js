@@ -1,5 +1,5 @@
 import { Modal } from '../ui/index.js';
-import { PhotographerFormContact } from './contact.js';
+import PhotographerFormContact from './contact.js';
 
 /**
  * Retourne un objet modal contenant le formulaire de contact
@@ -7,13 +7,15 @@ import { PhotographerFormContact } from './contact.js';
  * @param {PhotographerEntity} photographerEntity
  * @returns {Modal}
  */
-export const ContactWithModal = (photographerEntity) => {
-    const { name } = photographerEntity;
-    const modal = new Modal();
-    const callbackToClose = () => modal.close();
+const ContactWithModal = (photographerEntity) => {
+  const { name } = photographerEntity;
+  const modal = new Modal();
+  const callbackToClose = () => modal.close();
 
-    const photographerFormContact = new PhotographerFormContact(name, callbackToClose);
-    modal.setContent(photographerFormContact.render());
+  const photographerFormContact = new PhotographerFormContact(name, callbackToClose);
+  modal.setContent(photographerFormContact.render());
 
-    return modal;
+  return modal;
 };
+
+export default ContactWithModal;
