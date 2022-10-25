@@ -126,7 +126,7 @@ export default class MediaCards {
    */
   static sortAlphabeticalOrder() {
     return (elementA, elementB) => {
-      const title = (element) => element.querySelector('h3').textContent;
+      const title = (element) => element.querySelector('.media-title').textContent;
       const [titleA, titleB] = [title(elementA), title(elementB)];
 
       return titleA.localeCompare(titleB);

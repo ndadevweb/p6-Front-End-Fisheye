@@ -122,7 +122,7 @@ export default class MediaSlide {
     const mediaElement = cloneCardElement.querySelector('.media-container-source > img');
 
     if (mediaElement !== null) {
-      const imageName = cloneCardElement.querySelector('h3').textContent;
+      const imageName = cloneCardElement.querySelector('.media-title').textContent;
 
       mediaElement.alt = imageName;
     }
