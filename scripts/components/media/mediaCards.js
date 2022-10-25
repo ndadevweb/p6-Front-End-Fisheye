@@ -177,6 +177,25 @@ export default class MediaCards {
   }
 
   /**
+   * Centre la vue ecran sur l'element parent qui a ou
+   * contient un element avec le focus
+   *
+   * @param {Element} target event.target
+   * @param {String} keyUsed event.key
+   */
+  static scrollIntoViewMedia(target, keyUsed) {
+    // Ne pas declencher le centrage de l'element en utilisant ces touches clavier
+    const byPassKeys = [
+      'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
+      'Home', 'End', 'PageUp', 'PageDown',
+    ];
+
+    if (byPassKeys.includes(keyUsed) === false) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  /**
    * Bind les methodes utilisees pour le traitement des evenements
    */
   bindMethods() {
@@ -205,17 +224,32 @@ export default class MediaCards {
   }
 
   /**
-   * Gere les evenements clavier ( Enter )
+   * Gere les evenements clavier ( Enter, Tab )
    *
    * - Ouverture de la modal lorsque l'element qui a le focus
    *   a la classe .media-container
    *
+   * - Centre la vue ecran sur l'element parent qui a ou
+   *   contient un element avec le focus
+   *
    * @param {Event} event
+   * @returns {null}
    */
   handleKeyUpMediasElement(event) {
     if (event.key === 'Enter' && event.target.classList.contains('media-container') === true) {
       this.openMediaModal(event.target);
+
+      return null;
     }
+
+    // Centre la vue ecran sur l'element qui a le focus
+    const target = event.target.closest('.media-container');
+
+    if (target !== null) {
+      MediaCards.scrollIntoViewMedia(target, event.key);
+    }
+
+    return null;
   }
 
   /**

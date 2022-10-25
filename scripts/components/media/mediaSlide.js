@@ -31,7 +31,6 @@ export default class MediaSlide {
     this.buttonLeftElement = ButtonLeft();
     this.buttonRightElement = ButtonRight();
     this.buttonCloseModal = ButtonClose({ className: 'btn-close--orange' });
-    this.optionsMediaVideo();
   }
 
   /**
@@ -186,15 +185,31 @@ export default class MediaSlide {
         throw new Error('A valid "direction" value must be specified');
     }
 
-    const newElement = this.currentElement();
-
-    newElement.querySelector('.media-like').remove();
-    newElement.setAttribute('tabindex', 0);
-    newElement.addEventListener('click', this.handleEvent);
+    const newElement = MediaSlide.buildMedia(this.currentElement());
 
     this.mediaElementActive.replaceWith(newElement);
     this.mediaElementActive = newElement;
-    this.optionsMediaVideo();
+  }
+
+  /**
+   * Retire le contenu media-like
+   * Retire l'animation progressive
+   * Ajoute des attributs d'accessibilites
+   *
+   * @static
+   * @param {Element} target
+   * @returns {Element}
+   */
+  static buildMedia(target) {
+    target.querySelector('.media-like').remove();
+    target.querySelector('.media-ready').classList.remove('media-progressive-display');
+    target.querySelector('.media-ready').classList.add('media-ready-slide');
+    target.setAttribute('tabindex', 0);
+    target.setAttribute('aria-keyshortcuts', 'Home, End');
+
+    MediaSlide.optionsMediaVideo(target);
+
+    return target;
   }
 
   /**
@@ -211,8 +226,8 @@ export default class MediaSlide {
   /**
    * Ajout des attributs sur le media video qui est affiche
    */
-  optionsMediaVideo() {
-    const elementVideo = this.mediaElementActive.querySelector('video');
+  static optionsMediaVideo(target) {
+    const elementVideo = target.querySelector('video');
 
     if (elementVideo !== null) {
       elementVideo.setAttribute('tabindex', 0);
@@ -231,12 +246,14 @@ export default class MediaSlide {
    */
   buildComponent() {
     this.mediaSlideElement.classList.add('media-slide-container');
-    this.mediaElementActive.querySelector('.media-like').remove();
-    this.mediaElementActive.setAttribute('aria-keyshortcuts', 'ArrowLeft, ArrowRight, Home, End, Escape');
-    this.mediaElementActive.setAttribute('tabindex', 0);
-    this.buttonLeftElement.setAttribute('aria-label', 'Previous image');
-    this.buttonRightElement.setAttribute('aria-label', 'Next image');
-    this.buttonCloseModal.setAttribute('aria-label', 'image closeup view');
+
+    MediaSlide.buildMedia(this.mediaElementActive);
+
+    this.buttonLeftElement.setAttribute('aria-label', 'Image precedente');
+    this.buttonLeftElement.setAttribute('aria-keyshortcuts', 'ArrowLeft');
+    this.buttonRightElement.setAttribute('aria-label', 'Image suivante');
+    this.buttonRightElement.setAttribute('aria-keyshortcuts', 'ArrowRight');
+    this.buttonCloseModal.setAttribute('aria-label', 'Fermer la vue');
     this.buttonCloseModal.setAttribute('aria-keyshortcuts', 'Escape');
     this.addEvents();
 

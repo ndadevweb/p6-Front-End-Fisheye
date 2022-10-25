@@ -20,6 +20,8 @@
     grid-row: 1 / 3;
     width: 350px;
     height: 300px;
+    border-radius: 5px;
+    background: #C4C4C4;
     cursor: pointer;
 }
 
@@ -29,6 +31,15 @@
     height: 300px;
     border-radius: 5px;
     object-fit: cover;
+    opacity: 0;
+}
+
+.media-container-source .media-progressive-display {
+    animation: mediaReady 1000ms 1000ms forwards;
+}
+
+.media-container-source .media-ready-slide {
+    animation: mediaReady 250ms 0s forwards;
 }
 
 .media-container .media-title {
@@ -161,4 +172,17 @@
 
 .heart {
     fill: #901c1c;
+}
+
+
+/* Animation */
+
+@keyframes mediaReady {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

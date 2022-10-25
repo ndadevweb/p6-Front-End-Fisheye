@@ -8,8 +8,13 @@ export const MediaImage = (props) => {
   const { pathImage } = props;
   const imageElement = document.createElement('img');
 
+  imageElement.addEventListener('load', (event) => {
+    event.target.classList.add('media-progressive-display');
+    event.target.classList.add('media-ready');
+  });
   imageElement.src = pathImage;
   imageElement.alt = '';
+  imageElement.loading = 'lazy';
 
   return imageElement;
 };
@@ -31,6 +36,10 @@ export const MediaVideo = (props) => {
   linkElement.textContent = 'La télécharger';
   linkElement.href = pathVideo;
 
+  videoElement.addEventListener('loadeddata', (event) => {
+    event.target.classList.add('media-progressive-display');
+    event.target.classList.add('media-ready');
+  });
   videoElement.src = pathVideo;
   videoElement.setAttribute('tabindex', -1);
   videoElement.append(textNode, linkElement);

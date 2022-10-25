@@ -21,7 +21,7 @@ export default class MediaCard {
     this.cardElement = document.createElement('article');
     this.mediaLikeElement = new MediaLike(this.mediaEntity);
     this.mediaElement = MediaSource(this.mediaEntity);
-    this.titleElement = Title(this.mediaEntity, 'h2');
+    this.titleElement = Title(this.mediaEntity, 'h3');
   }
 
   /**
