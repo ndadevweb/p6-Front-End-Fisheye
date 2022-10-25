@@ -31,7 +31,7 @@
     object-fit: cover;
 }
 
-.media-container h3 {
+.media-container .media-title {
     grid-column: 1 / 2;
     align-self: end;
     height: 40px;

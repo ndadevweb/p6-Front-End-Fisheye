@@ -21,7 +21,7 @@ export default class MediaCard {
     this.cardElement = document.createElement('article');
     this.mediaLikeElement = new MediaLike(this.mediaEntity);
     this.mediaElement = MediaSource(this.mediaEntity);
-    this.titleElement = Title(this.mediaEntity, 'h3');
+    this.titleElement = Title(this.mediaEntity, 'h2');
   }
 
   /**
@@ -45,6 +45,7 @@ export default class MediaCard {
    * @returns {Element}
    */
   buildComponent() {
+    this.titleElement.classList.add('media-title');
     this.cardElement.classList.add('media-container');
     this.cardElement.classList.add('focusable');
     this.cardElement.setAttribute('tabindex', 0);

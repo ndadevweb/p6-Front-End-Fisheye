@@ -28,7 +28,7 @@ export default class MediaSorter {
    * Initialise les elements
    */
   initElements() {
-    this.mediaSorterContainer = document.createElement('aside');
+    this.mediaSorterContainer = document.createElement('form');
     this.listboxElement = document.createElement('div');
     this.labelElement = document.createElement('label');
     this.buttonElement = document.createElement('button');

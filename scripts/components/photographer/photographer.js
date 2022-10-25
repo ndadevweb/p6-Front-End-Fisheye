@@ -1,3 +1,5 @@
+import { Title } from '../ui/index.js';
+
 /**
  * Retourne un element affichant la photo du photographe
  *
@@ -35,9 +37,8 @@ export const PhotographerImage = (props) => {
  */
 export const PhotographerLocation = (props) => {
   const { location } = props;
-  const locationElement = document.createElement('p');
+  const locationElement = Title({ title: location }, 'h2');
 
-  locationElement.textContent = location;
   locationElement.classList.add('photographer-location');
 
   return locationElement;
