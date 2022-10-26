@@ -14,6 +14,7 @@ export default class PhotographerFormContact {
     this.title = document.createElement('h2');
     this.spanTitle = document.createElement('span');
     this.spanPhotographerName = document.createElement('span');
+    this.buttonClose = ButtonClose({ className: 'btn-close--white' });
     this.form = this.buildForm();
   }
 
@@ -27,6 +28,8 @@ export default class PhotographerFormContact {
 
   /**
    * Initialise les evenements souris / clavier
+   * Doit etre utilise apres la construction complete
+   * des elements
    */
   addEvents() {
     this.bindMethods();
@@ -154,7 +157,6 @@ export default class PhotographerFormContact {
    * @return {Element}
    */
   buildComponent() {
-    this.buttonClose = ButtonClose({ className: 'btn-close--white' });
     this.buttonClose.setAttribute('aria-label', 'Close dialog');
     this.buttonClose.setAttribute('aria-keyshortcuts', 'Escape');
     this.spanTitle.textContent = 'Contactez-moi';

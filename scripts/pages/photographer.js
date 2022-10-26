@@ -55,17 +55,29 @@ class PhotographerPage {
     this.sortObserver.add(this.mediaCards);
 
     // Active / desactive les tabindex lorsque la modal est ouverte / fermee
-    const logoLinkHomepage = {
+    const elementsPrimary = {
       update: ({ data }) => {
         const value = data.active === false ? -1 : 0;
 
-        document.querySelector('#link-homepage').setAttribute('tabindex', value);
+        const header = document.querySelector('.header-primary');
+        // Empeche un lecteur d'ecran tel que NVDA de lire le contenu
+        // non visible en arriere plan lorsque la modal est ouverte
+        header.setAttribute('aria-hidden', data.active === false);
+        // Evite la navigation au clavier sur cet element
+        // non visible en arriere plan
+        header.querySelector('#link-homepage').setAttribute('tabindex', value);
+
+        const main = document.querySelector('#main');
+        // Empeche un lecteur d'ecran tel que NVDA de lire le contenu
+        // non visible en arriere plan lorsque la modal est ouverte
+        main.setAttribute('aria-hidden', data.active === false);
       },
     };
-    this.accessibilityObserver.add(logoLinkHomepage);
+    this.accessibilityObserver.add(elementsPrimary);
     this.accessibilityObserver.add(this.photographerHeader);
     this.accessibilityObserver.add(this.mediaSorter);
     this.accessibilityObserver.add(this.mediaCards);
+    this.accessibilityObserver.add(this.photographerComplementary);
 
     // Raccourcis clavier pour se positionner sur les elements importants de la page
     // via les raccourcis clavier definis

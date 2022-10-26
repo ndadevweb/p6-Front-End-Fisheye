@@ -1,4 +1,4 @@
-export { MediaSource, MediaImage, MediaVideo } from './media.js';
+export { MediaFactory, MediaImage, MediaVideo } from './media.js';
 export { default as MediaCard } from './mediaCard.js';
 export { default as MediaCards } from './mediaCards.js';
 export { default as MediaLike } from './mediaLike.js';

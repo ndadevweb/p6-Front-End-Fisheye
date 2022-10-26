@@ -156,7 +156,7 @@ body {
     margin: 0;
 }
 
-header.header {
+header.header-primary {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

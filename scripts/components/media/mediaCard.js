@@ -1,4 +1,4 @@
-import { MediaSource } from './media.js';
+import { MediaFactory } from './media.js';
 import MediaLike from './mediaLike.js';
 import { Title } from '../ui/index.js';
 
@@ -20,7 +20,7 @@ export default class MediaCard {
   initElements() {
     this.cardElement = document.createElement('article');
     this.mediaLikeElement = new MediaLike(this.mediaEntity);
-    this.mediaElement = MediaSource(this.mediaEntity);
+    this.mediaElement = MediaFactory(this.mediaEntity);
     this.titleElement = Title(this.mediaEntity, 'h3');
   }
 
@@ -35,7 +35,7 @@ export default class MediaCard {
   toggleTabindex({ active }) {
     const value = active === false ? -1 : 0;
 
-    this.cardElement.setAttribute('tabindex', value);
+    this.mediaElement.querySelector('img, video').setAttribute('tabindex', value);
     this.mediaLikeElement.toggleTabindex({ active });
   }
 
@@ -48,7 +48,6 @@ export default class MediaCard {
     this.titleElement.classList.add('media-title');
     this.cardElement.classList.add('media-container');
     this.cardElement.classList.add('focusable');
-    this.cardElement.setAttribute('tabindex', 0);
     this.cardElement.dataset.id = this.mediaEntity.id;
     this.cardElement.dataset.date = this.mediaEntity.date;
     this.cardElement.append(this.mediaElement, this.titleElement, this.mediaLikeElement.render());

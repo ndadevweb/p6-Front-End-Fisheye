@@ -43,7 +43,7 @@ export default class PhotographerHeader {
   update({ type, data }) {
     switch (type) {
       case 'modal':
-        this.toggleTabindex(data);
+        this.toggleInteractivity(data);
         break;
       default:
         throw new Error('A valid "type" must be specified');
@@ -51,15 +51,24 @@ export default class PhotographerHeader {
   }
 
   /**
-   * Active desactive les tabindex
-   * Si { active } = true : active les tabindex ( tabindex = 0 )
-   * si { active } = false : desactive les tabindex ( tabindex = -1 )
+   * Active / Desactive l'interaction avec l'element
+   * lorsque cette methode est utilisee
+   *
+   * - Le focus ne pourra pas etre place sur cet element
+   * - Un lecteur d'ecran ne pourra pas voir cet element
+   *
+   * - active : { Boolean }
    *
    * @param {Object}
    */
-  toggleTabindex({ active }) {
+  toggleInteractivity({ active }) {
     const value = active === false ? -1 : 0;
 
+    // Empeche un lecteur d'ecran tel que NVDA de lire le contenu
+    // non visible en arriere plan lorsque la modal est ouverte
+    this.headerElement.setAttribute('aria-hidden', active === false);
+    // Evite la navigation au clavier sur les elements
+    // non visible en arriere plan
     this.buttonModalElement.setAttribute('tabindex', value);
   }
 

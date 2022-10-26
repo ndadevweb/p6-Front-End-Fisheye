@@ -63,7 +63,7 @@ export default class MediaSorter {
   update({ type, data }) {
     switch (type) {
       case 'modal':
-        this.toggleTabindex(data);
+        this.toggleInteractivity(data);
         break;
       default:
         throw new Error('A valid "type" must be specified');
@@ -71,19 +71,27 @@ export default class MediaSorter {
   }
 
   /**
-   * Active desactive les tabindex
+   * Active / Desactive l'interaction avec l'element
+   * lorsque cette methode est utilisee
    *
-   * Si { active } = true : active les tabindex ( tabindex = 0 )
-   * si { active } = false : desactive les tabindex ( tabindex = -1 )
+   * - Le focus ne pourra pas etre place sur cet element
+   * - Un lecteur d'ecran ne pourra pas voir cet element
+   *
+   * - active : { Boolean }
    *
    * @param {Object}
    */
-  toggleTabindex({ active }) {
+  toggleInteractivity({ active }) {
     const value = active === false ? -1 : 0;
 
+    // Empeche un lecteur d'ecran tel que NVDA de lire le contenu
+    // non visible en arriere plan lorsque la modal est ouverte
+    this.mediaSorterContainer.setAttribute('aria-hidden', active === false);
+    // Evite la navigation au clavier sur cet element
+    // non visible en arriere plan
     this.buttonElement.setAttribute('tabindex', value);
 
-    // Les elements sont masques seulement si la liste est active / ouverte
+    // Les elements sont accessibles au clavier seulement si la liste est active / ouverte
     if (this.buttonElement.getAttribute('aria-expanded') === true) {
       this.listElement.querySelector('li').forEach((liElement) => liElement.setAttribute('tabindex', value));
     }
@@ -288,7 +296,7 @@ export default class MediaSorter {
         listItemElement.textContent = objectData.label;
         listItemElement.setAttribute('tabindex', -1);
         listItemElement.setAttribute('role', 'option');
-        listItemElement.setAttribute('aria-shortcuts', objectData.key);
+        listItemElement.setAttribute('aria-keyshortcuts', objectData.key);
         listItemElement.dataset.label = objectData.label;
         listItemElement.dataset.sortby = objectData.sortBy;
         listItemElement.dataset.shortcutKey = objectData.key;

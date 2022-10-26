@@ -14,6 +14,7 @@ const ContactWithModal = (photographerEntity) => {
 
   const photographerFormContact = new PhotographerFormContact(name, callbackToClose);
   modal.setContent(photographerFormContact.render());
+  modal.setElementToFocusAfterOpened('input#firstname');
 
   return modal;
 };

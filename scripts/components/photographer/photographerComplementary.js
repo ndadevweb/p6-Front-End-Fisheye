@@ -17,10 +17,34 @@ export default class PhotographerComplementary {
    * Met a jour le nombre total de like des media du photographe
    *
    * @param {Integer} value
+   * @throws A valid "type" must be specified
    */
-  update(value) {
-    this.likes += parseInt(value, 10);
-    this.complementaryContainer.querySelector('.complementary-likes').textContent = this.likes;
+  // update(value) {
+  update({ type, data }) {
+    switch (type) {
+      case 'like':
+        this.likes += parseInt(data.value, 10);
+        this.complementaryContainer.querySelector('.complementary-likes').textContent = this.likes;
+        break;
+      case 'modal':
+        this.toggleInteractivity(data);
+        break;
+      default:
+        throw new Error('A valid "type" must be specified');
+    }
+  }
+
+  /**
+   * Desactive l'interaction avec l'element
+   * Un lecteur d'ecran ne pourra pas voir cet element
+   * lorsque cette methode est utilisee
+   *
+   * - active : { Boolean }
+   *
+   * @param {Object}
+   */
+  toggleInteractivity({ active }) {
+    this.complementaryContainer.setAttribute('aria-hidden', active === false);
   }
 
   /**

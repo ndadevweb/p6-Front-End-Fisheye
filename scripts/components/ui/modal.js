@@ -7,6 +7,7 @@ export default class Modal {
   constructor() {
     this.modalWrapper = document.querySelector('.modal');
     this.targetLaunchedModal = null;
+    this.elementToFocus = null;
     this.element = null;
   }
 
@@ -76,14 +77,43 @@ export default class Modal {
    * Affiche la modal
    */
   open() {
-    Modal.observers.forEach((observer) => observer.notify({ type: 'modal', data: { active: false } }));
-    document.body.classList.add('body-scroll--none');
-    document.body.classList.add('modal-opened');
-    this.modalWrapper.setAttribute('aria-hidden', false);
-    this.modalWrapper.setAttribute('aria-modal', true);
-    this.modalWrapper.classList.add('modal-open');
-    this.modalWrapper.append(this.element);
-    this.addEvents();
+    if (document.body.classList.contains('modal-opened') === false) {
+      Modal.observers.forEach((observer) => observer.notify({ type: 'modal', data: { active: false } }));
+      document.body.classList.add('body-scroll--none');
+      document.body.classList.add('modal-opened');
+      this.modalWrapper.setAttribute('aria-hidden', false);
+      this.modalWrapper.setAttribute('aria-modal', true);
+      this.modalWrapper.classList.add('modal-open');
+      this.modalWrapper.append(this.element);
+      this.focusElement();
+      this.addEvents();
+    }
+  }
+
+  /**
+   * Selecteur de l'element qui prendra le focus
+   * des l'ouverture de la modal
+   *
+   * @param {String} selector
+   */
+  setElementToFocusAfterOpened(selector) {
+    this.elementToFocus = selector;
+  }
+
+  /**
+   * Placer le focus sur l'element indique prealablement
+   * via la methode setElementToFocusAfterOpened()
+   */
+  focusElement() {
+    const focusOnElement = () => {
+      if (this.elementToFocus === null) {
+        this.modalWrapper.focus();
+      } else {
+        this.modalWrapper.querySelector(this.elementToFocus).focus();
+      }
+    };
+
+    setTimeout(focusOnElement, 100);
   }
 
   /**

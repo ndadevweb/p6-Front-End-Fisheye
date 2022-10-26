@@ -1,5 +1,10 @@
 import Observer from './observer.js';
 
+/**
+ * Permet de desactiver un ou plusieurs attributs des elements
+ * enregistres dans le but d'empecher l'interaction au clavier
+ * ou via lecteur d'ecran
+ */
 export default class AccessibilityObserver extends Observer {
   /**
    * type : ( sort | modal )

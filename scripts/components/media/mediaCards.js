@@ -21,7 +21,7 @@ export default class MediaCards {
    * Methode pouvant etre utilisee par un observer
    *
    * @see sortBy()
-   * @see toggleTabindex()
+   * @see toggleInteractivity()
    *
    * @param {Object} { type, data }
    * @throws {Error} A "type" must be specified
@@ -37,7 +37,7 @@ export default class MediaCards {
         this.mediasElement.replaceChildren(...childrenSorted);
         break;
       case 'modal':
-        this.toggleTabindex(data);
+        this.toggleInteractivity(data);
         break;
       default:
         throw new Error('A valid "type" must be specified');
@@ -134,14 +134,22 @@ export default class MediaCards {
   }
 
   /**
-   * Active desactive les tabindex
+   * Active / Desactive l'interaction avec l'element
+   * lorsque cette methode est utilisee
    *
-   * Si { active } = true : active les tabindex ( tabindex = 0 )
-   * si { active } = false : desactive les tabindex ( tabindex = -1 )
+   * - Le focus ne pourra pas etre place sur cet element
+   * - Un lecteur d'ecran ne pourra pas voir cet element
+   *
+   * - active : { Boolean }
    *
    * @param {Object}
    */
-  toggleTabindex({ active }) {
+  toggleInteractivity({ active }) {
+    // Empeche un lecteur d'ecran tel que NVDA de lire le contenu
+    // non visible en arriere plan lorsque la modal est ouverte
+    this.mediasElement.setAttribute('aria-hidden', active === false);
+    // Evite la navigation au clavier sur les elements
+    // non visible en arriere plan
     this.mediaCardElements.forEach((mediaCard) => {
       mediaCard.toggleTabindex({ active });
     });
@@ -160,18 +168,17 @@ export default class MediaCards {
     const index = this.mediaEntities.findIndex((mediaEntity) => mediaEntity.id === mediaId);
 
     this.mediaEntities[index].updateLikes(value);
-    this.likesObserver.notify(value);
+    this.likesObserver.notify({ type: 'like', data: { value } });
   }
 
   /**
    * Ouvre la modal lightbox / mediaSlide
    *
-   * @param {Element} target
+   * @param {Element} mediaSelectedTarget
    */
-  openMediaModal(target) {
-    const mediaSelected = target.closest('article');
+  openMediaModal(mediaSelectedTarget) {
     const mediaElements = this.mediasElement.querySelectorAll('.media-container');
-    const mediaWithModal = MediaWithModal(mediaSelected, mediaElements);
+    const mediaWithModal = MediaWithModal(mediaSelectedTarget, mediaElements);
 
     mediaWithModal.open();
   }
@@ -187,7 +194,7 @@ export default class MediaCards {
     // Ne pas declencher le centrage de l'element en utilisant ces touches clavier
     const byPassKeys = [
       'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
-      'Home', 'End', 'PageUp', 'PageDown',
+      'Home', 'End', 'PageUp', 'PageDown', ' ', // Touche espace
     ];
 
     if (byPassKeys.includes(keyUsed) === false) {
@@ -226,8 +233,8 @@ export default class MediaCards {
   /**
    * Gere les evenements clavier ( Enter, Tab )
    *
-   * - Ouverture de la modal lorsque l'element qui a le focus
-   *   a la classe .media-container
+   * - Ouverture de la modal lorsque le focus
+   *   est sur un element img ou video
    *
    * - Centre la vue ecran sur l'element parent qui a ou
    *   contient un element avec le focus
@@ -236,7 +243,7 @@ export default class MediaCards {
    * @returns {null}
    */
   handleKeyUpMediasElement(event) {
-    if (event.key === 'Enter' && event.target.classList.contains('media-container') === true) {
+    if (event.key === 'Enter' && ['IMG', 'VIDEO'].includes(event.target.tagName) === true) {
       this.openMediaModal(event.target);
 
       return null;
@@ -272,7 +279,7 @@ export default class MediaCards {
   buildComponent() {
     this.mediasElement.classList.add('medias-container');
     this.mediasElement.setAttribute('aria-label', 'Medias');
-    this.mediasElement.setAttribute('aria-shortcuts', 'alt+3');
+    this.mediasElement.setAttribute('aria-keyshortcuts', 'alt+3');
     this.addEvents();
 
     this.mediaEntities.forEach((mediaEntity) => {

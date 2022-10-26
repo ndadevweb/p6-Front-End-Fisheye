@@ -15,7 +15,7 @@ export default class MediaSlide {
    */
   constructor({ mediaElementActive, mediaElements, callbackToClose }) {
     this.mediaElements = Array.from(mediaElements);
-    this.currentIndex = this.mediaElements.findIndex((element) => element === mediaElementActive);
+    this.currentIndex = this.findIndex(mediaElementActive);
     this.maxIndex = mediaElements.length - 1;
     this.callbackToClose = callbackToClose;
     this.initElements();
@@ -85,10 +85,17 @@ export default class MediaSlide {
    * - ArrowLeft | ArrowRight : Affiche le media precedent / suivant
    * - Home | End : Affiche le premier / dernier element
    *
+   * Si le focus est sur un element VIDEO, cet evenement
+   * est desactive
+   *
    * @param {Event} event
    * @returns {null}
    */
   handleKeyUpGlobal(event) {
+    if (MediaSlide.isVideoElement(event.target) === true) {
+      return null;
+    }
+
     const keysAllowed = {
       ArrowLeft: 'left',
       ArrowRight: 'right',
@@ -109,6 +116,16 @@ export default class MediaSlide {
     this.change(keysAllowed[event.key]);
 
     return null;
+  }
+
+  /**
+   * Retourne l'index de l'element passe en argument
+   *
+   * @param {Element} mediaElementActive
+   * @returns {Number}
+   */
+  findIndex(mediaElementActive) {
+    return this.mediaElements.findIndex((element) => element.querySelector('img, video') === mediaElementActive);
   }
 
   /**
@@ -204,10 +221,9 @@ export default class MediaSlide {
     target.querySelector('.media-like').remove();
     target.querySelector('.media-ready').classList.remove('media-progressive-display');
     target.querySelector('.media-ready').classList.add('media-ready-slide');
-    target.setAttribute('tabindex', 0);
     target.setAttribute('aria-keyshortcuts', 'Home, End');
 
-    MediaSlide.optionsMediaVideo(target);
+    MediaSlide.addVideoAttributes(target);
 
     return target;
   }
@@ -224,17 +240,31 @@ export default class MediaSlide {
   }
 
   /**
-   * Ajout des attributs sur le media video qui est affiche
+   * Verifie que l'element passe en argument
+   * est un element video
+   *
+   * @param {Element} target
+   * @returns {Boolean}
    */
-  static optionsMediaVideo(target) {
-    const elementVideo = target.querySelector('video');
+  static isVideoElement(target) {
+    return target !== null && target.tagName === 'VIDEO';
+  }
 
-    if (elementVideo !== null) {
-      elementVideo.setAttribute('tabindex', 0);
-      elementVideo.preload = 'none';
-      elementVideo.loop = 'true';
-      elementVideo.controls = 'true';
-      elementVideo.autoplay = 'true';
+  /**
+   * Ajout des attributs sur le media video qui est affiche
+   *
+   * @static
+   * @param {Element}
+   */
+  static addVideoAttributes(target) {
+    const element = target.querySelector('video');
+
+    if (MediaSlide.isVideoElement(element) === true) {
+      element.setAttribute('tabindex', 2);
+      element.preload = 'none';
+      element.loop = 'true';
+      element.controls = 'true';
+      element.autoplay = 'true';
     }
   }
 
@@ -251,8 +281,10 @@ export default class MediaSlide {
 
     this.buttonLeftElement.setAttribute('aria-label', 'Image precedente');
     this.buttonLeftElement.setAttribute('aria-keyshortcuts', 'ArrowLeft');
+    this.buttonLeftElement.setAttribute('tabindex', 1);
     this.buttonRightElement.setAttribute('aria-label', 'Image suivante');
     this.buttonRightElement.setAttribute('aria-keyshortcuts', 'ArrowRight');
+    this.buttonRightElement.setAttribute('tabindex', 3);
     this.buttonCloseModal.setAttribute('aria-label', 'Fermer la vue');
     this.buttonCloseModal.setAttribute('aria-keyshortcuts', 'Escape');
     this.addEvents();

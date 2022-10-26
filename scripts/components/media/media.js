@@ -5,16 +5,18 @@
  * @returns {Element}
  */
 export const MediaImage = (props) => {
-  const { pathImage } = props;
+  const { pathImage, title } = props;
   const imageElement = document.createElement('img');
 
   imageElement.addEventListener('load', (event) => {
+    event.target.classList.add('focusable');
     event.target.classList.add('media-progressive-display');
     event.target.classList.add('media-ready');
   });
   imageElement.src = pathImage;
-  imageElement.alt = '';
+  imageElement.alt = title;
   imageElement.loading = 'lazy';
+  imageElement.setAttribute('tabindex', 0);
 
   return imageElement;
 };
@@ -37,11 +39,12 @@ export const MediaVideo = (props) => {
   linkElement.href = pathVideo;
 
   videoElement.addEventListener('loadeddata', (event) => {
+    event.target.classList.add('focusable');
     event.target.classList.add('media-progressive-display');
     event.target.classList.add('media-ready');
   });
   videoElement.src = pathVideo;
-  videoElement.setAttribute('tabindex', -1);
+  videoElement.setAttribute('tabindex', 0);
   videoElement.append(textNode, linkElement);
 
   return videoElement;
@@ -53,11 +56,12 @@ export const MediaVideo = (props) => {
  * @param {Object} props
  * @returns {MediaImage | MediaVideo}
  */
-export const MediaSource = (props) => {
+export const MediaFactory = (props) => {
   const { hasImage } = props;
   const mediaSource = hasImage === true ? MediaImage(props) : MediaVideo(props);
   const mediaContainer = document.createElement('div');
 
+  mediaSource.classList.add('media-item');
   mediaContainer.classList.add('media-container-source');
   mediaContainer.append(mediaSource);
 
