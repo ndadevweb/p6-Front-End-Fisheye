@@ -96,21 +96,27 @@ class PhotographerPage {
    * Bloc " Trier par " permettant le tri des medias
    */
   async displaySorter() {
-    document.querySelector('.media-sorter').replaceWith(this.mediaSorter.render());
+    if (this.photographerEntity.id !== undefined) {
+      document.querySelector('.media-sorter').replaceWith(this.mediaSorter.render());
+    }
   }
 
   /**
    * Bloc contenant les differents medias
    */
   async displayMedias() {
-    document.querySelector('.medias-container').replaceWith(this.mediaCards.render());
+    if (this.photographerEntity.id !== undefined) {
+      document.querySelector('.medias-container').replaceWith(this.mediaCards.render());
+    }
   }
 
   /**
    * Bloc contenant le nombre total de like de chaque media et le prix TJM du photographe
    */
   async displayComplementary() {
-    document.querySelector('.complementary').replaceWith(this.photographerComplementary.render());
+    if (this.photographerEntity.id !== undefined) {
+      document.querySelector('.complementary').replaceWith(this.photographerComplementary.render());
+    }
   }
 
   /**

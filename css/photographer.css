@@ -9,6 +9,13 @@
     height: 300px;
 }
 
+.photographer-header--content-center h1 {
+    grid-column: 1 / 4;
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+}
+
 .photographer-header .photographer-complementary,
 .photographer-header button,
 .photographer-header .container-image-photographer {

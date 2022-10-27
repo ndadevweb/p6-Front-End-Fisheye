@@ -17,7 +17,7 @@ export default class FetchPhotographers extends FetchApi {
    */
   async find(id) {
     const { photographers } = await super.fetchData();
-    const photographerFounded = photographers.find((photographer) => photographer.id === id);
+    const photographerFounded = photographers.find((photographer) => photographer.id === id) || {};
 
     return photographerFounded;
   }

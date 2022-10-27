@@ -78,10 +78,18 @@ export default class PhotographerHeader {
    * @returns {Element}
    */
   buildComponent() {
-    this.informationsElement.classList.add('photographer-complementary');
-    this.informationsElement.append(this.nameElement, this.locationElement, this.taglineElement);
     this.headerElement.classList.add('photographer-header');
-    this.headerElement.append(this.informationsElement, this.buttonModalElement, this.imageElement);
+
+    if (this.photographerEntity.id !== undefined) {
+      this.informationsElement.classList.add('photographer-complementary');
+      this.informationsElement.append(this.nameElement, this.locationElement, this.taglineElement);
+      this.headerElement.append(this.informationsElement, this.buttonModalElement, this.imageElement);
+    } else {
+      const props = { title: "Ce photographe n'existe pas." };
+      const headerTitle = Title(props, 'h1');
+      this.headerElement.append(headerTitle);
+      this.headerElement.classList.add('photographer-header--content-center');
+    }
 
     return this.headerElement;
   }
