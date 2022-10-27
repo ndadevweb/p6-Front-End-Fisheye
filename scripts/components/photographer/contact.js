@@ -97,6 +97,7 @@ export default class PhotographerFormContact {
         fieldElement.name = inputName;
         fieldElement.id = inputName;
         fieldElement.setAttribute('aria-labelledby', inputName);
+        fieldElement.setAttribute('aria-required', true);
         fieldElement.setAttribute('required', true);
 
         break;
@@ -107,6 +108,7 @@ export default class PhotographerFormContact {
         fieldElement.name = inputName;
         fieldElement.id = inputName;
         fieldElement.setAttribute('aria-labelledby', inputName);
+        fieldElement.setAttribute('aria-required', true);
         fieldElement.setAttribute('required', true);
 
         break;
@@ -116,7 +118,6 @@ export default class PhotographerFormContact {
         fieldElement.textContent = labelName;
         fieldElement.classList.add('btn-contact');
         fieldElement.classList.add('focusable');
-        fieldElement.setAttribute('required', true);
 
         break;
 
