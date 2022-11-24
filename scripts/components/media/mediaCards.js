@@ -279,7 +279,6 @@ export default class MediaCards {
   buildComponent() {
     this.mediasElement.classList.add('medias-container');
     this.mediasElement.setAttribute('aria-label', 'Medias');
-    this.mediasElement.setAttribute('aria-keyshortcuts', 'alt+3');
     this.addEvents();
 
     this.mediaEntities.forEach((mediaEntity) => {

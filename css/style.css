@@ -9,6 +9,7 @@
 html,
 body {
     height: 100%;
+    font-size: 100%;
 }
 
 label,
@@ -18,13 +19,13 @@ button {
 
 h1 {
     color: #901c1c;
-    margin-right: 100px;
+    margin-right: 6.25rem; /*100px*/
 }
 
 .container {
     display: flex;
     flex-direction: column;
-    max-width: 1240px;
+    max-width: 77.5rem; /*1240px*/
     margin: 0 auto;
 }
 
@@ -34,11 +35,11 @@ h1 {
 
 .btn,
 .btn-contact {
-    font-size: 20px;
+    font-size: 1.25rem; /* 20px */
     font-weight: bold;
-    padding: 11px;
-    width: 170px;
-    height: 70px;
+    padding: 0.6875rem; /*11px*/
+    width: 10.625rem; /*170px*/
+    height: 4.375rem; /*70px*/
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -71,23 +72,23 @@ h1 {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 200px;
-    height: 70px;
-    padding: 0 22px;
+    width: 12.5rem; /*200px*/
+    height: 4.375rem; /*70px*/
+    padding: 0 1.375rem; /*22px*/
     border: none;
     border-radius: 5px;
     background: #901c1c;
     color: #fff;
     text-align: left;
-    font-size: 20px;
+    font-size: 1.25rem; /*20px*/
     font-family: Arial;
     font-weight: bold;
 }
 
 .arrow {
     display: block;
-    width: 10px;
-    height: 10px;
+    width: 0.625rem; /*10px*/
+    height: 0.625rem; /*10px*/
     border: none;
     border-left: 3px solid #fff;
     border-top: 3px solid #fff;
@@ -104,14 +105,14 @@ h1 {
     z-index: 1500;
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 12.5rem; /*200px*/
     margin-top: -3px;
-    padding: 5px 22px 0 22px;
+    padding: 0.3125rem 1.375rem 0 1.375rem; /*5px 22px 0 22px*/
     list-style: none;
     border: none;
     border-radius: 0 0 5px 5px;
     color: #ffffff;
-    font-size: 20px;
+    font-size: 1.25rem; /*20px*/
     font-family: Arial;
     font-weight: bold;
     background: #901c1c;
@@ -132,8 +133,8 @@ h1 {
 }
 
 .listbox li {
-    height: 70px;
-    padding-top: 20px;
+    height: 4.375rem; /*70px*/
+    padding-top: 1.25rem; /*20px*/
     border-top: 1px solid #fff;
     cursor: pointer;
 }
@@ -161,20 +162,20 @@ header.header-primary {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 90px;
+    height: 5.625rem; /*90px*/
 }
 
 .logo {
-    height: 50px;
+    height: 3.125rem; /*50px*/
 }
 
 .photographer_section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     justify-items: center;
-    gap: 70px;
-    margin-top: 100px;
-    margin-bottom: 50px;
+    gap: 4.375rem; /*70px*/
+    margin-top: 6.25rem; /*100px*/
+    margin-bottom: 3.125rem; /*50px*/
 }
 
 .photographer-location {
@@ -214,27 +215,28 @@ header.header-primary {
 .photographer_section article .photographer-location {
     color: #901c1c;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 0.875rem; /*14px*/
 }
 
 .photographer_section article .photographer-tagline {
-    font-size: 14px;
+    font-size: 0.875rem; /*14px*/
 }
 
 .photographer_section article .photographer-price {
     color: #525252;
-    font-size: 12px;
+    font-size: 0.75rem; /*12px*/
 }
 
 .photographer_section article h2 {
-    margin: 20px 0 10px;
+    margin: 1.25rem 0 0.625rem; /*20px 0 10px*/
     color: #d3573c;
-    font-size: 36px;
+    font-size: 2.25rem; /*36px*/
+    text-align: center;
 }
 
 .container-image-photographer {
-    width: 200px;
-    height: 200px;
+    width: 12.5rem; /*200px*/
+    height: 12.5rem; /*200px*/
     border-radius: 50%;
     box-shadow: 0px 5px 40px 1px rgba(0, 0, 0, 0.25);
     overflow: hidden;
@@ -249,8 +251,8 @@ header.header-primary {
 
 .image-photographer {
     display: block;
-    height: 200px;
-    width: 200px;
+    height: 12.5rem; /*200px*/
+    width: 12.5rem; /*200px*/
     border-radius: 50%;
     opacity: 0;
 }

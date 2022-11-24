@@ -84,9 +84,6 @@ export default class GlobalShortcuts {
       case '2':
         document.querySelector('#sort-by').focus();
         break;
-      case '3':
-        document.querySelector('.medias-container .focusable').focus();
-        break;
       default:
         return null;
     }

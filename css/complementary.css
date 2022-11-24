@@ -7,19 +7,19 @@
     display: flex;
     align-items: center;
 
-    margin-right: -45px;
+    margin-right: -2.8125rem; /*-45px*/
 
-    width: 375px;
-    height: 65px;
+    width: 23.4375rem; /*375px*/
+    height: 4.0625rem; /*65px*/
     border-radius: 5px 5px 0 0;
     background: #db8876;
     color: #000;
-    font-size: 24px;
+    font-size: 1.5rem; /*24px*/
 }
 
 .complementary-list {
     margin: 0;
-    padding: 0 30px;
+    padding: 0 1.875rem; /*0 30px*/
     display: flex;
     align-items: center;
     justify-items: center;
@@ -34,7 +34,7 @@
 }
 
 .complementary li:nth-child(1) .complementary-likes {
-    min-width: 50px;
+    min-width: 3.125rem; /*50px*/
 }
 
 .complementary .heart {
