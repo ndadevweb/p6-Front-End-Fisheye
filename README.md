@@ -9,7 +9,7 @@
 
 [GithubPage](https://ndadevweb.github.io/p6-front-end-fisheye/index.html)
 
-[Netlify](https://ndadevweb-p6-fisheye.netlify.app/p6-front-end-fisheye/index.html)
+[Netlify](https://ndadevweb-p6-fisheye.netlify.app/index.html)
 
 ---
 
