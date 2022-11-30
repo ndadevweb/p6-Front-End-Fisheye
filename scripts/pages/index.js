@@ -1,5 +1,5 @@
 import { FetchPhotographers, GlobalShortcuts } from '../utils/index.js';
-import { PhotographerEntity } from '../entities/index.js';
+import { PhotographerEntity } from '../factories/index.js';
 import { PhotographerCard } from '../components/photographer/index.js';
 
 class IndexPage {

@@ -1,6 +1,6 @@
 import { FetchPhotographers, FetchMedias } from '../utils/index.js';
 import GlobalShortcuts from '../utils/globalShortcuts.js';
-import { PhotographerEntity, MediaEntity } from '../entities/index.js';
+import { PhotographerEntity, MediaEntity } from '../factories/index.js';
 import { PhotographerHeader, PhotographerComplementary } from '../components/photographer/index.js';
 import { MediaSorter, MediaCards } from '../components/media/index.js';
 import { LikesObserver, SortObserver, AccessibilityObserver } from '../observers/index.js';

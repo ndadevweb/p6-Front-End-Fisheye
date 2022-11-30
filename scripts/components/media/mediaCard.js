@@ -1,4 +1,4 @@
-import { MediaFactory } from './media.js';
+import MediaFactory from '../../factories/media.js';
 import MediaLike from './mediaLike.js';
 import { Title } from '../ui/index.js';
 
